@@ -69,3 +69,12 @@ class SliderView(APIView):
                 
         except:
             return Response({'message': 'Delete error'})
+        
+class SliderHomeView(APIView):
+    
+    def get(self, request):
+        sliders = Slider.objects.filter(is_active=True).order_by('order', '-id')
+        slider_data = SliderSerializer(sliders, many=True).data
+        return Response({
+            "data": slider_data,
+        })
