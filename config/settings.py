@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 from datetime import timedelta
 from dotenv import load_dotenv
@@ -155,8 +156,8 @@ AUTHENTICATION_BACKENDS = (
 )
 
 # Google OAuth2
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '617258711154-c5f9cnmkuqc7nc9e5cdm404633jgh3qi.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.getenv("SOCIAL_AUTH_GOOGLE_OAUTH2_KEY")
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv("SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET")
 
 # Facebook OAuth2
 SOCIAL_AUTH_FACEBOOK_KEY = 'YOUR_FACEBOOK_APP_ID'
