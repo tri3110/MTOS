@@ -3,7 +3,7 @@ import json
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from django.db import transaction
+from django.db import transaction, IntegrityError
 from apps.products.models import Category, Option, OptionGroup, Product, ProductOption, ProductTopping, Topping
 from apps.products.serializers import CategorySerializer, OptionGroupSerializer, ProductCreateSerializer, ProductSerializer, ToppingBaseSerializer, ToppingSerializer
 from apps.sliders.models import Slider
@@ -14,28 +14,50 @@ from django.contrib.postgres.search import TrigramSimilarity
 from django.db.models import Q, Prefetch
 from django.utils.text import slugify
 
+from common.redis_client import redis_client
+
 class ProductView(APIView):
     authentication_classes = [CookieJWTAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        products = Product.objects.filter(category__status="active", status="active").order_by('-id')
-        categories = Category.objects.all()
+        cache_key = "product:full_data"
+        cached = redis_client.get(cache_key)
 
-        option_groups = OptionGroup.objects.filter(status="active").prefetch_related("options").all()
-        toppings = Topping.objects.filter(status='active').order_by('-id')
+        if cached:
+            return Response(json.loads(cached))
 
-        product_data = ProductSerializer(products, many=True).data
-        categorie_data = CategorySerializer(categories, many=True).data
-        option_data = OptionGroupSerializer(option_groups, many=True).data
-        topping_data = ToppingBaseSerializer(toppings, many=True).data
+        products = (
+            Product.objects
+            .select_related("category")
+            .prefetch_related(
+                "product_options__option__group",
+                "product_toppings__topping"
+            )
+            .filter(category__status="active", status="active")
+            .order_by("-id")
+        )
 
-        return Response({
-            "products": product_data,
-            "categories": categorie_data,
-            "options": option_data,
-            "toppings": topping_data
-        })
+        categories = Category.objects.only("id", "name", "status")
+
+        option_groups = (
+            OptionGroup.objects
+            .filter(status="active")
+            .prefetch_related("options")
+        )
+
+        toppings = Topping.objects.filter(status="active").only("id", "name")
+
+        response_data = {
+            "products": ProductSerializer(products, many=True).data,
+            "categories": CategorySerializer(categories, many=True).data,
+            "options": OptionGroupSerializer(option_groups, many=True).data,
+            "toppings": ToppingBaseSerializer(toppings, many=True).data
+        }
+
+        redis_client.set(cache_key, json.dumps(response_data, default=str), ex=300)
+
+        return Response(response_data)
     
     def post(self, request):
         try:
@@ -43,32 +65,40 @@ class ProductView(APIView):
             data.pop("toppings", None)
             data.pop("options", None)
             serializer = ProductCreateSerializer(data=data)
+
             options = json.loads(request.data.get("options", "[]"))
             toppings = json.loads(request.data.get("toppings", "[]"))
 
             if serializer.is_valid():
-                product = serializer.save(created_by=request.user)
+                with transaction.atomic():
+                    product = serializer.save(created_by=request.user)
 
-                for option_id in options:
-                    ProductOption.objects.create(
-                        product=product,
-                        option_id=option_id,
-                        is_required=False
-                    )
+                    ProductOption.objects.bulk_create([
+                        ProductOption(
+                            product=product,
+                            option_id=option_id,
+                            is_required=False
+                        )
+                        for option_id in options
+                    ])
 
-                for topping in toppings:
-                    ProductTopping.objects.create(
-                        product=product,
-                        topping_id=topping["id"],
-                        price=topping.get("price", 0),
-                        max_quantity=topping.get("max_quantity", 3),
-                        is_required=topping.get("is_required", False)
-                    )
+                    ProductTopping.objects.bulk_create([
+                        ProductTopping(
+                            product=product,
+                            topping_id=t["id"],
+                            price=t.get("price", 0),
+                            max_quantity=t.get("max_quantity", 3),
+                            is_required=t.get("is_required", False)
+                        )
+                        for t in toppings
+                    ])
 
-                return Response({
-                    'product': ProductSerializer(product).data,
-                    'message': "Product created successfully"
-                }, status=status.HTTP_201_CREATED)
+                    redis_client.delete("product:full_data")
+
+                    return Response({
+                        'product': ProductSerializer(product).data,
+                        'message': "Product created successfully"
+                    }, status=status.HTTP_201_CREATED)
             
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
                 
@@ -78,7 +108,15 @@ class ProductView(APIView):
     def put(self, request, id):
         try:
             with transaction.atomic():
-                product = Product.objects.select_for_update().get(id = id)
+                product = (
+                    Product.objects
+                    .select_for_update()
+                    .filter(id=id)
+                    .first()
+                )
+
+                if not product:
+                    return Response({"message": "Not found"}, status=404)
 
                 data = request.data.copy()
                 data.pop("toppings", None)
@@ -87,27 +125,33 @@ class ProductView(APIView):
                 options = json.loads(request.data.get("options", "[]"))
                 toppings = json.loads(request.data.get("toppings", "[]"))
 
-                if serializer.is_valid():
+                if serializer.is_valid(raise_exception=True):
                     product = serializer.save(updated_by=request.user)
 
                     ProductOption.objects.filter(product=product).delete()
                     ProductTopping.objects.filter(product=product).delete()
 
-                    for option_id in options:
-                        ProductOption.objects.create(
+                    ProductOption.objects.bulk_create([
+                        ProductOption(
                             product=product,
                             option_id=option_id,
                             is_required=False
                         )
+                        for option_id in options
+                    ])
 
-                    for topping in toppings:
-                        ProductTopping.objects.create(
+                    ProductTopping.objects.bulk_create([
+                        ProductTopping(
                             product=product,
-                            topping_id=topping["id"],
-                            price=topping.get("price", 0),
-                            max_quantity=topping.get("max_quantity", 3),
-                            is_required=topping.get("is_required", False)
+                            topping_id=t["id"],
+                            price=t.get("price", 0),
+                            max_quantity=t.get("max_quantity", 3),
+                            is_required=t.get("is_required", False)
                         )
+                        for t in toppings
+                    ])
+
+                    redis_client.delete("product:full_data")
 
                     return Response({
                         'product': ProductSerializer(product).data,
@@ -122,17 +166,28 @@ class ProductView(APIView):
     def delete(self, request, id):
         try:
             with transaction.atomic():
-                product = Product.objects.select_for_update().get(id = id)
+                product = (
+                    Product.objects
+                    .select_for_update()
+                    .filter(id=id)
+                    .first()
+                )
+
+                if not product:
+                    return Response({"message": "Not found"}, status=404)
+
                 product.status = "inactive"
                 product.updated_by = request.user
                 product.save()
 
+                redis_client.delete("product:full_data")
+
                 return Response({
-                    'message': "Movie delete successfully"
-                }, status=status.HTTP_201_CREATED)
-                
-        except:
-            return Response({'message': 'Delete error'})
+                    "message": "Product deleted successfully"
+                }, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response({"message": str(e)}, status=400)
 
 class ProductSearchView(APIView):
     def get(self, request):
@@ -154,9 +209,15 @@ class ProductSearchView(APIView):
         return Response(ProductSerializer(products, many=True).data)
     
 class ProductMenuView(APIView):
+
     def get(self, request, slug=None):
         try:
-            products = Product.objects.filter(status="active").select_related("category").filter(category__status="active")
+            cache_key = f"menu:{slug or 'all'}"
+            cached = redis_client.get(cache_key)
+            if cached:
+                return Response(json.loads(cached))
+            
+            products = Product.objects.filter(status="active", category__status="active").select_related("category")
             if slug:
                 products = products.filter(category__slug=slug)
 
@@ -165,49 +226,95 @@ class ProductMenuView(APIView):
             product_data = ProductSerializer(products, many=True).data
             categorie_data = CategorySerializer(categories, many=True).data
 
-            return Response({
+            response_data = {
                 "products": product_data,
                 "categories": categorie_data,
-            })
+            }
+            redis_client.set(cache_key, json.dumps(response_data, default=str), ex=300)
+
+            return Response(response_data)
                 
         except Exception as e:
             return Response({'message': str(e)}, status=400)
 
 class HomeDataView(APIView):
+
     def get(self, request):
+        cache_key = "home:data"
+        cached = redis_client.get(cache_key)
+
+        if cached:
+            return Response(json.loads(cached))
+
         products = (
             Product.objects
-            .filter(status="active")
+            .select_related("category")
             .prefetch_related(
-                Prefetch('product_toppings'),
                 Prefetch(
-                    'product_options',
-                    queryset=ProductOption.objects.select_related('option__group')
+                    "product_toppings",
+                    queryset=ProductTopping.objects.select_related("topping")
+                ),
+                Prefetch(
+                    "product_options",
+                    queryset=ProductOption.objects.select_related("option__group")
                 )
             )
+            .filter(status="active", category__status="active")
+            .only("id", "name", "price", "purchase_count", "category_id")
             .order_by("-purchase_count")[:4]
         )
 
-        sliders = Slider.objects.filter(is_active=True).order_by('order', '-id')
-        
-        return Response({
+        sliders = (
+            Slider.objects
+            .filter(is_active=True)
+            .only("id", "image", "order")
+            .order_by("order", "-id")
+        )
+
+        response_data = {
             "products": ProductSerializer(products, many=True).data,
             "sliders": SliderSerializer(sliders, many=True).data
-        })
+        }
+
+        redis_client.set(
+            cache_key,
+            json.dumps(response_data, default=str),
+            ex=300
+        )
+
+        return Response(response_data)
 
 class CategoryView(APIView):
     authentication_classes = [CookieJWTAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        categories = Category.objects.filter(status="active").order_by('-id')
-        category_data = CategorySerializer(categories, many=True).data
+        cache_key = "categories:active"
+        cached = redis_client.get(cache_key)
 
-        return Response({
-            "data": category_data
-        })
+        if cached:
+            return Response(json.loads(cached))
 
-    def post(self, request):    
+        categories = (
+            Category.objects
+            .filter(status="active")
+            .only("id", "name", "slug", "status")
+            .order_by("-id")
+        )
+
+        response_data = {
+            "data": CategorySerializer(categories, many=True).data
+        }
+
+        redis_client.set(
+            cache_key,
+            json.dumps(response_data),
+            ex=300
+        )
+
+        return Response(response_data)
+
+    def post(self, request):
         try:
             data = request.data.copy()
 
@@ -216,31 +323,50 @@ class CategoryView(APIView):
                 slug = base_slug
                 count = 1
 
-                while Category.objects.filter(slug=slug).exists():
-                    slug = f"{base_slug}-{count}"
-                    count += 1
+                with transaction.atomic():
+                    while True:
+                        try:
+                            data["slug"] = slug
 
-                data["slug"] = slug
+                            serializer = CategorySerializer(data=data)
+                            serializer.is_valid(raise_exception=True)
 
-            serializer = CategorySerializer(data=data)
+                            category = serializer.save(created_by=request.user)
+                            break
 
-            if serializer.is_valid():
-                category = serializer.save(created_by=request.user)
+                        except IntegrityError:
+                            slug = f"{base_slug}-{count}"
+                            count += 1
 
-                return Response({
-                    "category": CategorySerializer(category).data,
-                    "message": "Category created successfully"
-                }, status=status.HTTP_201_CREATED)
+            else:
+                serializer = CategorySerializer(data=data)
+                serializer.is_valid(raise_exception=True)
 
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                with transaction.atomic():
+                    category = serializer.save(created_by=request.user)
+
+            redis_client.delete("categories:active")
+
+            return Response({
+                "category": CategorySerializer(category).data,
+                "message": "Category created successfully"
+            }, status=status.HTTP_201_CREATED)
 
         except Exception as e:
-            return Response({'message': str(e)}, status=500)
+            return Response({"message": str(e)}, status=400)
         
     def put(self, request, id):
         try:
             with transaction.atomic():
-                category = Category.objects.select_for_update().get(id=id)
+                category = (
+                    Category.objects
+                    .select_for_update()
+                    .filter(id=id)
+                    .first()
+                )
+
+                if not category:
+                    return Response({"message": "Category not found"}, status=404)
 
                 data = request.data.copy()
 
@@ -249,29 +375,34 @@ class CategoryView(APIView):
                     slug = base_slug
                     count = 1
 
-                    while Category.objects.filter(slug=slug).exclude(id=category.id).exists():
-                        slug = f"{base_slug}-{count}"
-                        count += 1
+                    while True:
+                        try:
+                            data["slug"] = slug
 
-                    data["slug"] = slug
+                            serializer = CategorySerializer(category, data=data, partial=True)
+                            serializer.is_valid(raise_exception=True)
 
-                serializer = CategorySerializer(category, data=data, partial=True)
+                            category = serializer.save(updated_by=request.user)
+                            break
 
-                if serializer.is_valid():
+                        except IntegrityError:
+                            slug = f"{base_slug}-{count}"
+                            count += 1
+                else:
+                    serializer = CategorySerializer(category, data=data, partial=True)
+                    serializer.is_valid(raise_exception=True)
+
                     category = serializer.save(updated_by=request.user)
 
-                    return Response({
-                        "category": CategorySerializer(category).data,
-                        "message": "Category updated successfully"
-                    }, status=status.HTTP_200_OK)
+            redis_client.delete("categories:active")
 
-                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-        except Category.DoesNotExist:
-            return Response({'message': 'Category not found'}, status=404)
+            return Response({
+                "category": CategorySerializer(category).data,
+                "message": "Category updated successfully"
+            }, status=status.HTTP_200_OK)
 
         except Exception as e:
-            return Response({'message': str(e)}, status=500)
+            return Response({"message": str(e)}, status=400)
         
     def delete(self, request, id):
         try:
@@ -280,6 +411,8 @@ class CategoryView(APIView):
                 category.status = "inactive"
                 category.updated_by = request.user
                 category.save()
+
+                redis_client.delete("categories:active")
 
                 return Response({
                     'message': "Movie delete successfully"
@@ -291,24 +424,48 @@ class CategoryView(APIView):
 class CategoryUserView(APIView):
 
     def get(self, request):
-        categories = Category.objects.filter(status="active").order_by('-id')
-        category_data = CategorySerializer(categories, many=True).data
+        cache_key = "categories:active"
+        cached = redis_client.get(cache_key)
 
-        return Response({
-            "data": category_data
-        })
+        if cached:
+            return Response(json.loads(cached))
+
+        categories = (
+            Category.objects
+            .filter(status="active")
+            .only("id", "name", "slug", "status")
+            .order_by("-id")
+        )
+
+        response_data = {
+            "data": CategorySerializer(categories, many=True).data
+        }
+
+        redis_client.set(
+            cache_key,
+            json.dumps(response_data),
+            ex=300
+        )
+
+        return Response(response_data)
 
 class ToppingView(APIView):
     authentication_classes = [CookieJWTAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
+        cache_key = "toppings:active"
+        cached = redis_client.get(cache_key)
+        if cached:
+            return Response(json.loads(cached))
+
         toppings = Topping.objects.filter(status="active").order_by('-id')
         topping_data = ToppingBaseSerializer(toppings, many=True).data
 
-        return Response({
-            "data": topping_data
-        })
+        reponse_data = {"data": topping_data}
+        redis_client.set(cache_key,json.dumps(reponse_data),ex=300)
+
+        return Response(reponse_data)
 
     def post(self, request):
         try:
@@ -316,6 +473,9 @@ class ToppingView(APIView):
 
             if serializer.is_valid():
                 topping = serializer.save(created_by=request.user)
+
+                redis_client.delete("toppings:active")
+
                 return Response({
                     'topping': ToppingBaseSerializer(topping).data,
                     'message': "Topping created successfully"
@@ -333,6 +493,9 @@ class ToppingView(APIView):
                 serializer = ToppingBaseSerializer(topping, data=request.data, partial=True)
                 if serializer.is_valid():
                     topping = serializer.save(updated_by=request.user)
+
+                    redis_client.delete("toppings:active")
+
                     return Response({
                         'topping': ToppingBaseSerializer(topping).data,
                         'message': "Topping update successfully"
@@ -351,6 +514,8 @@ class ToppingView(APIView):
                 topping.updated_by = request.user
                 topping.save()
 
+                redis_client.delete("toppings:active")
+
                 return Response({
                     'message': "Topping delete successfully"
                 }, status=status.HTTP_201_CREATED)
@@ -363,12 +528,18 @@ class OptionGroupView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
+        cache_key = "optiongroup:active"
+        cached = redis_client.get(cache_key)
+        if cached:
+            return Response(json.loads(cached))
+        
         options = OptionGroup.objects.filter(status='active').order_by('-id')
         options_data = OptionGroupSerializer(options, many=True).data
 
-        return Response({
-            "data": options_data
-        })
+        reponse_data = {"data": options_data}
+        redis_client.set(cache_key,json.dumps(reponse_data),ex=300)
+
+        return Response(reponse_data)
 
     def post(self, request):
         try:
@@ -383,6 +554,8 @@ class OptionGroupView(APIView):
                         name=opt['name'],
                         price=opt.get('price', 0)
                     )
+
+                redis_client.delete("optiongroup:active")
                 return Response({
                     'option': OptionGroupSerializer(option).data,
                     'message': "Option Group created successfully"
@@ -400,6 +573,8 @@ class OptionGroupView(APIView):
                 option.status = "inactive"
                 option.updated_by = request.user
                 option.save()
+
+                redis_client.delete("optiongroup:active")
 
                 return Response({
                     'message': "Option Group delete successfully"

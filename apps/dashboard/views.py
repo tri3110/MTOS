@@ -1,3 +1,5 @@
+import json
+
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from apps.users.authentication import CookieJWTAuthentication
@@ -8,6 +10,8 @@ from django.db.models.functions import TruncDate
 from datetime import timedelta
 from django.utils import timezone
 from django.db.models import Sum, Count, Q
+
+from common.redis_client import redis_client
 
 def build_series(queryset, from_date, days):
     data_map = {
@@ -98,11 +102,20 @@ class DashboardView(APIView):
     def get(self, request):
         from_date, to_date = parse_date_range(request)
 
+        cache_key = f"dashboard:{from_date.date()}:{to_date.date()}"
+        cached = redis_client.get(cache_key)
+        if cached:
+            return Response(json.loads(cached))
+
         days = (to_date.date() - from_date.date()).days + 1
 
-        orders = Order.objects.filter(
-            created_at__date__range=(from_date, to_date),
-            is_deleted=False
+        orders = (
+            Order.objects
+            .only("id", "status", "total_price", "created_at")
+            .filter(
+                created_at__range=(from_date, to_date),
+                is_deleted=False
+            )
         )
 
         # 🔥 1 query duy nhất
@@ -132,7 +145,7 @@ class DashboardView(APIView):
                 **calc_stats(series[key])
             }
 
-        return Response({
+        response_data = {
             "categories": series["labels"],
 
             "revenue": {
@@ -148,4 +161,8 @@ class DashboardView(APIView):
             },
 
             **response_status
-        })
+        }
+
+        redis_client.set(cache_key, json.dumps(response_data), ex=60)
+
+        return Response(response_data)

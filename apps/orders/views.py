@@ -12,9 +12,19 @@ class OrderDetailView(APIView):
 
     def get(self, request, id):
         try:
-            order = Order.objects.prefetch_related(
-                "items__toppings"
-            ).get(id=id, user=request.user)
+            order = (
+                Order.objects
+                .select_related("user", "store", "voucher")
+                .prefetch_related(
+                    "items__product",
+                    "items__toppings__topping"
+                )
+                .filter(id=id, user=request.user)
+                .first()
+            )
+
+            if not order:
+                return Response({"error": "Order not found"}, status=404)
 
             serializer = OrderSerializer(order)
 
@@ -50,7 +60,7 @@ class AdminOrderView(APIView):
     def post(self, request, id):
         new_status = request.data.get("status")
 
-        order = Order.objects.filter(id=id).first()
+        order = Order.objects.only("id", "status").filter(id=id).first()
 
         if not order:
             return Response({"error": "Order not found"}, status=404)
@@ -62,18 +72,14 @@ class AdminOrderView(APIView):
                 "error": f"Cannot change from {order.status} to {new_status}"
             }, status=400)
 
-        order.status = new_status
-        order.save()
+        Order.objects.filter(id=id).update(status=new_status)
 
         return Response({"message": "Status updated"})
     
     def delete(self, request, id):
-        order = Order.objects.filter(id=id).first()
+        updated = Order.objects.filter(id=id).update(is_deleted=True)
 
-        if not order:
+        if not updated:
             return Response({"error": "Not found"}, status=404)
-
-        order.is_deleted = True
-        order.save()
 
         return Response({"message": "Order cancelled"})

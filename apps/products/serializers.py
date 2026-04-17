@@ -75,9 +75,15 @@ class ProductSerializer(serializers.ModelSerializer):
         ]
 
     def get_toppings(self, obj):
-        toppings = obj.product_toppings.filter(status='active')
+        toppings = [
+            pt for pt in obj.product_toppings.all()
+            if pt.topping.status == "active"
+        ]
 
-        return ToppingSerializer(toppings, many=True).data
+        return ToppingSerializer(
+            [pt.topping for pt in toppings],
+            many=True
+        ).data
 
     def get_option_groups(self, obj):
         groups = {}
@@ -99,11 +105,11 @@ class ProductSerializer(serializers.ModelSerializer):
             groups[group.id]["options"].append({
                 "id": opt.id,
                 "name": opt.name,
-                "price": opt.price,
+                "price": float(opt.price),
                 "is_required": po.is_required
             })
 
-        return sorted(groups.values(), key=lambda x: x["id"])
+        return list(groups.values())
 
 class OptionSerializer(serializers.ModelSerializer):
     class Meta:

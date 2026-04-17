@@ -1,37 +1,52 @@
 import json
-
 from django.db import transaction
+from django.db.models import F
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from apps.carts.serializers import CartItemSerializer
-from apps.users.authentication import CookieJWTAuthentication
 from rest_framework.permissions import IsAuthenticated
 
+from apps.users.authentication import CookieJWTAuthentication
 from apps.carts.models import Cart, CartItem, CartItemOption, CartItemTopping
+from apps.carts.serializers import CartItemSerializer
 from common.redis_client import redis_client
 
-def is_same_item(db_item, client_item):
-    if db_item.product_id != client_item["product"]["id"]:
-        return False
+def get_cart_cache_key(user_id):
+    return f"cart:{user_id}"
 
-    db_options = set(
-        db_item.options.values_list("option_id", flat=True)
-    )
-    client_options = set(client_item["options"].values())
 
-    if db_options != client_options:
-        return False
-
-    db_toppings = set(
-        (t.topping_id, t.quantity)
-        for t in db_item.toppings.all()
-    )
-    client_toppings = set(
-        (t["id"], t["quantity"])
-        for t in client_item["toppings"]
+def build_item_key(product_id, options, toppings):
+    return (
+        product_id,
+        tuple(sorted(options)),
+        tuple(sorted((t["id"], t["quantity"]) for t in toppings))
     )
 
-    return db_toppings == client_toppings
+
+def get_cart_items(cart):
+    return cart.items.select_related("product").prefetch_related(
+        "options",
+        "toppings__topping"
+    )
+
+
+def serialize_cart(cart):
+    items = get_cart_items(cart)
+    return CartItemSerializer(items, many=True).data
+
+
+def build_db_map(db_items):
+    db_map = {}
+
+    for db_item in db_items:
+        key = (
+            db_item.product_id,
+            tuple(sorted(db_item.options.values_list("option_id", flat=True))),
+            tuple(sorted((t.topping_id, t.quantity) for t in db_item.toppings.all()))
+        )
+        db_map[key] = db_item
+
+    return db_map
+
 
 class CartView(APIView):
     authentication_classes = [CookieJWTAuthentication]
@@ -42,53 +57,58 @@ class CartView(APIView):
             with transaction.atomic():
                 cart, _ = Cart.objects.get_or_create(user=request.user)
 
-                db_items = cart.items.prefetch_related("options", "toppings")
+                db_items = get_cart_items(cart)
+                db_map = build_db_map(db_items)
 
-                for item in request.data['items']:
-                    existing = None
+                for item in request.data["items"]:
+                    key = build_item_key(
+                        item["product"]["id"],
+                        item["options"].values(),
+                        item["toppings"]
+                    )
 
-                    for db_item in db_items:
-                        if is_same_item(db_item, item):
-                            existing = db_item
-                            break
+                    existing = db_map.get(key)
 
                     if existing:
-                        existing.quantity += item["quantity"]
-                        existing.save()
+                        CartItem.objects.filter(id=existing.id).update(
+                            quantity=F("quantity") + item["quantity"]
+                        )
                     else:
                         new_item = CartItem.objects.create(
                             cart=cart,
-                            product_id=item["product"]['id'],
+                            product_id=item["product"]["id"],
                             quantity=item["quantity"],
                             price_snapshot=item["base_price"]
                         )
 
-                        for option_id in item["options"].values():
-                            CartItemOption.objects.create(
+                        CartItemOption.objects.bulk_create([
+                            CartItemOption(
                                 cart_item=new_item,
-                                option_id=option_id
+                                option_id=opt_id
                             )
+                            for opt_id in item["options"].values()
+                        ])
 
-                        for topping in item["toppings"]:
-                            CartItemTopping.objects.create(
+                        CartItemTopping.objects.bulk_create([
+                            CartItemTopping(
                                 cart_item=new_item,
-                                topping_id=topping["id"],
-                                price=topping["price"],
-                                quantity=topping["quantity"]
+                                topping_id=t["id"],
+                                price=t["price"],
+                                quantity=t["quantity"]
                             )
+                            for t in item["toppings"]
+                        ])
 
-                redis_client.delete(f"cart_{request.user.id}")
+                redis_client.delete(get_cart_cache_key(request.user.id))
 
                 return Response({
-                    "items": CartItemSerializer(
-                        cart.items.prefetch_related("options", "toppings", "product"),
-                        many=True
-                    ).data,
+                    "items": serialize_cart(cart),
                     "message": "Sync success"
-                }, status=200)
+                })
 
         except Exception as e:
             return Response({"message": str(e)}, status=400)
+
 
 class CartAddView(APIView):
     authentication_classes = [CookieJWTAuthentication]
@@ -96,25 +116,22 @@ class CartAddView(APIView):
 
     def get(self, request):
         try:
-            user=request.user
+            user = request.user
+            cache_key = get_cart_cache_key(user.id)
 
-            cache_key = f"cart_{user.id}"
             cached = redis_client.get(cache_key)
             if cached:
                 return Response({"items": json.loads(cached)})
 
-            cart = Cart.objects.get(user=user)
-            data = CartItemSerializer(
-                cart.items.prefetch_related("options", "toppings", "product"),
-                many=True
-            ).data
+            cart = Cart.objects.filter(user=user).first()
+            if not cart:
+                return Response({"items": []})
+
+            data = serialize_cart(cart)
 
             redis_client.set(cache_key, json.dumps(data), ex=60)
 
             return Response({"items": data})
-
-        except CartItem.DoesNotExist:
-            return Response({"message": "Item not found"}, status=404)
 
         except Exception as e:
             return Response({"message": str(e)}, status=400)
@@ -124,19 +141,23 @@ class CartAddView(APIView):
             with transaction.atomic():
                 cart, _ = Cart.objects.get_or_create(user=request.user)
 
+                db_items = get_cart_items(cart)
+                db_map = build_db_map(db_items)
+
                 item = request.data
 
-                db_items = cart.items.prefetch_related("options", "toppings")
+                key = build_item_key(
+                    item["product"]["id"],
+                    item["options"].values(),
+                    item["toppings"]
+                )
 
-                existing = None
-                for db_item in db_items:
-                    if is_same_item(db_item, item):
-                        existing = db_item
-                        break
+                existing = db_map.get(key)
 
                 if existing:
-                    existing.quantity += item["quantity"]
-                    existing.save()
+                    CartItem.objects.filter(id=existing.id).update(
+                        quantity=F("quantity") + item["quantity"]
+                    )
                 else:
                     new_item = CartItem.objects.create(
                         cart=cart,
@@ -145,142 +166,71 @@ class CartAddView(APIView):
                         price_snapshot=item["base_price"]
                     )
 
-                    for option_id in item["options"].values():
-                        CartItemOption.objects.create(
+                    CartItemOption.objects.bulk_create([
+                        CartItemOption(
                             cart_item=new_item,
-                            option_id=option_id
+                            option_id=opt_id
                         )
+                        for opt_id in item["options"].values()
+                    ])
 
-                    for topping in item["toppings"]:
-                        CartItemTopping.objects.create(
+                    CartItemTopping.objects.bulk_create([
+                        CartItemTopping(
                             cart_item=new_item,
-                            topping_id=topping["id"],
-                            price=topping["price"],
-                            quantity=topping["quantity"]
+                            topping_id=t["id"],
+                            price=t["price"],
+                            quantity=t["quantity"]
                         )
-                
-                redis_client.delete(f"cart_{request.user.id}")
+                        for t in item["toppings"]
+                    ])
+
+                redis_client.delete(get_cart_cache_key(request.user.id))
 
                 return Response({
-                    "items": CartItemSerializer(
-                        cart.items.prefetch_related("options", "toppings", "product"),
-                        many=True
-                    ).data
-                }, status=200)
+                    "items": serialize_cart(cart)
+                })
 
         except Exception as e:
             return Response({"message": str(e)}, status=400)
 
     def patch(self, request, id):
         try:
-            cart = Cart.objects.get(user=request.user)
-
-            item = CartItem.objects.get(id=id, cart=cart)
-
             action = request.data.get("action")
 
             if action == "increase":
-                item.quantity += 1
-                item.save()
+                CartItem.objects.filter(id=id).update(quantity=F("quantity") + 1)
 
             elif action == "decrease":
-                item.quantity -= 1
+                item = CartItem.objects.filter(id=id).first()
+                if not item:
+                    return Response({"message": "Item not found"}, status=404)
 
-                if item.quantity <= 0:
+                if item.quantity <= 1:
                     item.delete()
                 else:
-                    item.save()
+                    CartItem.objects.filter(id=id).update(quantity=F("quantity") - 1)
+
             else:
                 return Response({"message": "Invalid action"}, status=400)
-            
-            redis_client.delete(f"cart_{request.user.id}")
 
-            return Response({
-                "items": CartItemSerializer(
-                    cart.items.prefetch_related("options", "toppings", "product"),
-                    many=True
-                ).data
-            })
+            redis_client.delete(get_cart_cache_key(request.user.id))
 
-        except CartItem.DoesNotExist:
-            return Response({"message": "Item not found"}, status=404)
+            cart = Cart.objects.filter(user=request.user).first()
+            return Response({"items": serialize_cart(cart)})
 
         except Exception as e:
             return Response({"message": str(e)}, status=400)
 
     def delete(self, request, id):
         try:
-            cart = Cart.objects.get(user=request.user)
+            CartItem.objects.filter(id=id).delete()
 
-            item = CartItem.objects.get(id=id, cart=cart)
-            item.delete()
+            redis_client.delete(get_cart_cache_key(request.user.id))
 
-            redis_client.delete(f"cart_{request.user.id}")
-
+            cart = Cart.objects.filter(user=request.user).first()
             return Response({
-                "items": CartItemSerializer(
-                    cart.items.prefetch_related("options", "toppings", "product"),
-                    many=True
-                ).data
-            }, status=200)
-
-        except CartItem.DoesNotExist:
-            return Response({"message": "Item not found"}, status=404)
-
-        except Exception as e:
-            return Response({"message": str(e)}, status=400)
-
-    # def patch(self, request, id):
-    #     try:
-    #         cart = Cart.objects.get(user=request.user)
-
-    #         item = CartItem.objects.get(id=id, cart=cart)
-
-    #         action = request.data.get("action")
-
-    #         if action == "increase":
-    #             item.quantity += 1
-    #             item.save()
-
-    #         elif action == "decrease":
-    #             item.quantity -= 1
-
-    #             if item.quantity <= 0:
-    #                 item.delete()
-    #             else:
-    #                 item.save()
-    #         else:
-    #             return Response({"message": "Invalid action"}, status=400)
-
-    #         return Response({
-    #             "items": CartItemSerializer(
-    #                 cart.items.prefetch_related("options", "toppings", "product"),
-    #                 many=True
-    #             ).data
-    #         })
-
-    #     except CartItem.DoesNotExist:
-    #         return Response({"message": "Item not found"}, status=404)
-
-    #     except Exception as e:
-    #         return Response({"message": str(e)}, status=400)
-
-    # def delete(self, request, id):
-        try:
-            cart = Cart.objects.get(user=request.user)
-
-            item = CartItem.objects.get(id=id, cart=cart)
-            item.delete()
-
-            return Response({
-                "items": CartItemSerializer(
-                    cart.items.prefetch_related("options", "toppings", "product"),
-                    many=True
-                ).data
-            }, status=200)
-
-        except CartItem.DoesNotExist:
-            return Response({"message": "Item not found"}, status=404)
+                "items": serialize_cart(cart)
+            })
 
         except Exception as e:
             return Response({"message": str(e)}, status=400)
