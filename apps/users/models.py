@@ -188,3 +188,11 @@ class User(AbstractUser):
     @property
     def get_user_id(self):
         return self.id
+    
+class ThemeSetting(models.Model):
+
+    key = models.CharField(max_length=50)
+    value = models.CharField(max_length=20)  # hex color
+
+    def __str__(self):
+        return f"{self.key}"

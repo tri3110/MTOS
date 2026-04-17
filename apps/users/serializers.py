@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from rest_framework import serializers
-from .models import User
+from .models import ThemeSetting, User
 
 
 class PasswordField(serializers.CharField):
@@ -180,3 +180,14 @@ class LogoutSerializer(serializers.Serializer):
 class SocialLoginSerializer(serializers.Serializer):
     provider = serializers.ChoiceField(choices=[('google', 'Google'), ('facebook', 'Facebook')])
     access_token = serializers.CharField(required=True)
+
+
+class ThemeSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ThemeSetting
+        fields = [
+            "id",
+            "key",
+            "value",
+        ]

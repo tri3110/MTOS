@@ -6,6 +6,7 @@ from .views import (
     LogoutView,
     RefreshTokenView,
     ChangePasswordView,
+    ThemeSettingView,
     UserProfileView,
     SocialLoginView
 )
@@ -19,4 +20,5 @@ urlpatterns = [
     path('profile/', UserProfileView.as_view(), name='user_profile'),
     path('social-login/', SocialLoginView.as_view(), name='social_login'),
     path('me/', MeView.as_view(), name='user_info'),
+    path('themes/', ThemeSettingView.as_view(), name='themes_setting'),
 ]

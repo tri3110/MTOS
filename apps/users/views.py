@@ -5,17 +5,17 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.exceptions import TokenError
 from .serializers import (
+    ThemeSerializer,
     UserCreateSerializer,
     UserSerializer,
     LoginSerializer,
     RefreshTokenSerializer,
     ChangePasswordSerializer,
-    LogoutSerializer,
     SocialLoginSerializer
 )
 
-import requests, os, polib
-from .models import User
+import requests
+from .models import ThemeSetting, User
 from rest_framework_simplejwt.tokens import RefreshToken
 
 
@@ -117,6 +117,7 @@ class LogoutView(APIView):
             )
             response.delete_cookie("access_token", path="/")
             response.delete_cookie("refresh_token", path="/")
+            response.delete_cookie("is_admin", path="/")
 
             return response
 
@@ -274,8 +275,21 @@ class SocialLoginView(APIView):
         })
     
 class MeView(APIView):
+    # permission_classes = [IsAuthenticated]
 
     def get(self, request):
         return Response({
             "user": UserSerializer(request.user).data
         })
+    
+class ThemeSettingView(APIView):
+
+    def get(self, request):
+        themes = ThemeSetting.objects
+        serializer = ThemeSerializer(themes, many=True)
+
+        result = {}
+        for item in serializer.data:
+            result[item["key"]] = item["value"]
+
+        return Response(result)

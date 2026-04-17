@@ -24,10 +24,19 @@ urlpatterns = [
     path('api/auth/', include('apps.users.urls')),
     path('api/admin/', include('apps.products.urls')),
     path('api/admin/', include('apps.sliders.urls')),
+    path('api/admin/', include('apps.vouchers.urls')),
+    path('api/admin/', include('apps.stores.urls')),
+    path('api/admin/', include('apps.orders.urls')),
+    path('api/admin/', include('apps.dashboard.urls')),
     path('auth/', include('social_django.urls', namespace='social')),
 
     path('api/user/', include('apps.products.urls')),
     path('api/user/', include('apps.sliders.urls')),
+    path('api/user/', include('apps.carts.urls')),
+    path('api/user/', include('apps.stores.urls')),
+    path('api/user/', include('apps.payments.urls')),
+    path('api/user/', include('apps.orders.urls')),
+    # path('api/ai/', include('apps.ai_service.urls')),
 ]
 
 if settings.DEBUG:
