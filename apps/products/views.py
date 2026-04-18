@@ -13,7 +13,7 @@ from rest_framework.permissions import IsAuthenticated
 from django.contrib.postgres.search import TrigramSimilarity
 from django.db.models import Q, Prefetch
 from django.utils.text import slugify
-
+from common.constants import CategoryCache, OptionGroupCache, ProductCache, ToppingCache
 from common.redis_client import redis_client
 
 class ProductView(APIView):
@@ -21,8 +21,8 @@ class ProductView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        cache_key = "product:full_data"
-        cached = redis_client.get(cache_key)
+        cache = ProductCache.FULL_DATA
+        cached = redis_client.get(cache.key)
 
         if cached:
             return Response(json.loads(cached))
@@ -55,7 +55,11 @@ class ProductView(APIView):
             "toppings": ToppingBaseSerializer(toppings, many=True).data
         }
 
-        redis_client.set(cache_key, json.dumps(response_data, default=str), ex=300)
+        redis_client.set(
+            cache.key, 
+            json.dumps(response_data, default=str), 
+            ex=cache.ttl
+        )
 
         return Response(response_data)
     
@@ -93,7 +97,7 @@ class ProductView(APIView):
                         for t in toppings
                     ])
 
-                    redis_client.delete("product:full_data")
+                    redis_client.delete(ProductCache.FULL_DATA.key)
 
                     return Response({
                         'product': ProductSerializer(product).data,
@@ -151,7 +155,7 @@ class ProductView(APIView):
                         for t in toppings
                     ])
 
-                    redis_client.delete("product:full_data")
+                    redis_client.delete(ProductCache.FULL_DATA.key)
 
                     return Response({
                         'product': ProductSerializer(product).data,
@@ -180,7 +184,7 @@ class ProductView(APIView):
                 product.updated_by = request.user
                 product.save()
 
-                redis_client.delete("product:full_data")
+                redis_client.delete(ProductCache.FULL_DATA.key)
 
                 return Response({
                     "message": "Product deleted successfully"
@@ -289,8 +293,8 @@ class CategoryView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        cache_key = "categories:active"
-        cached = redis_client.get(cache_key)
+        cache = CategoryCache.FULL_DATA
+        cached = redis_client.get(cache.key)
 
         if cached:
             return Response(json.loads(cached))
@@ -307,9 +311,9 @@ class CategoryView(APIView):
         }
 
         redis_client.set(
-            cache_key,
+            cache.key,
             json.dumps(response_data),
-            ex=300
+            ex=cache.ttl
         )
 
         return Response(response_data)
@@ -345,7 +349,7 @@ class CategoryView(APIView):
                 with transaction.atomic():
                     category = serializer.save(created_by=request.user)
 
-            redis_client.delete("categories:active")
+            redis_client.delete(CategoryCache.FULL_DATA.key)
 
             return Response({
                 "category": CategorySerializer(category).data,
@@ -394,7 +398,7 @@ class CategoryView(APIView):
 
                     category = serializer.save(updated_by=request.user)
 
-            redis_client.delete("categories:active")
+            redis_client.delete(CategoryCache.FULL_DATA.key)
 
             return Response({
                 "category": CategorySerializer(category).data,
@@ -412,10 +416,10 @@ class CategoryView(APIView):
                 category.updated_by = request.user
                 category.save()
 
-                redis_client.delete("categories:active")
+                redis_client.delete(CategoryCache.FULL_DATA.key)
 
                 return Response({
-                    'message': "Movie delete successfully"
+                    'message': "Category delete successfully"
                 }, status=status.HTTP_201_CREATED)
                 
         except:
@@ -424,8 +428,8 @@ class CategoryView(APIView):
 class CategoryUserView(APIView):
 
     def get(self, request):
-        cache_key = "categories:active"
-        cached = redis_client.get(cache_key)
+        cache = CategoryCache.FULL_DATA
+        cached = redis_client.get(cache.key)
 
         if cached:
             return Response(json.loads(cached))
@@ -442,9 +446,9 @@ class CategoryUserView(APIView):
         }
 
         redis_client.set(
-            cache_key,
+            cache.key,
             json.dumps(response_data),
-            ex=300
+            ex=cache.ttl
         )
 
         return Response(response_data)
@@ -454,8 +458,8 @@ class ToppingView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        cache_key = "toppings:active"
-        cached = redis_client.get(cache_key)
+        cache = ToppingCache.ACTIVE
+        cached = redis_client.get(cache.key)
         if cached:
             return Response(json.loads(cached))
 
@@ -463,7 +467,7 @@ class ToppingView(APIView):
         topping_data = ToppingBaseSerializer(toppings, many=True).data
 
         reponse_data = {"data": topping_data}
-        redis_client.set(cache_key,json.dumps(reponse_data),ex=300)
+        redis_client.set(cache.key, json.dumps(reponse_data), ex=cache.ttl)
 
         return Response(reponse_data)
 
@@ -474,7 +478,7 @@ class ToppingView(APIView):
             if serializer.is_valid():
                 topping = serializer.save(created_by=request.user)
 
-                redis_client.delete("toppings:active")
+                redis_client.delete(ToppingCache.ACTIVE.key)
 
                 return Response({
                     'topping': ToppingBaseSerializer(topping).data,
@@ -494,7 +498,7 @@ class ToppingView(APIView):
                 if serializer.is_valid():
                     topping = serializer.save(updated_by=request.user)
 
-                    redis_client.delete("toppings:active")
+                    redis_client.delete(ToppingCache.ACTIVE.key)
 
                     return Response({
                         'topping': ToppingBaseSerializer(topping).data,
@@ -503,7 +507,7 @@ class ToppingView(APIView):
                 
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
                 
-        except:
+        except Exception as e:
             return Response({'message': 'Update error'})
         
     def delete(self, request, id):
@@ -514,7 +518,7 @@ class ToppingView(APIView):
                 topping.updated_by = request.user
                 topping.save()
 
-                redis_client.delete("toppings:active")
+                redis_client.delete(ToppingCache.ACTIVE.key)
 
                 return Response({
                     'message': "Topping delete successfully"
@@ -528,16 +532,16 @@ class OptionGroupView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        cache_key = "optiongroup:active"
-        cached = redis_client.get(cache_key)
+        cache = OptionGroupCache.ACTIVE
+        cached = redis_client.get(cache.key)
         if cached:
             return Response(json.loads(cached))
         
         options = OptionGroup.objects.filter(status='active').order_by('-id')
         options_data = OptionGroupSerializer(options, many=True).data
 
-        reponse_data = {"data": options_data}
-        redis_client.set(cache_key,json.dumps(reponse_data),ex=300)
+        reponse_data = {"options": options_data}
+        redis_client.set(cache.key, json.dumps(reponse_data), ex=cache.ttl)
 
         return Response(reponse_data)
 
@@ -555,7 +559,7 @@ class OptionGroupView(APIView):
                         price=opt.get('price', 0)
                     )
 
-                redis_client.delete("optiongroup:active")
+                redis_client.delete(OptionGroupCache.ACTIVE.key)
                 return Response({
                     'option': OptionGroupSerializer(option).data,
                     'message': "Option Group created successfully"
@@ -574,7 +578,7 @@ class OptionGroupView(APIView):
                 option.updated_by = request.user
                 option.save()
 
-                redis_client.delete("optiongroup:active")
+                redis_client.delete(OptionGroupCache.ACTIVE.key)
 
                 return Response({
                     'message': "Option Group delete successfully"

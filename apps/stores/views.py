@@ -8,18 +8,18 @@ from apps.stores.models import StoreModel
 from apps.stores.serializers import StoreSerializer
 from apps.users.authentication import CookieJWTAuthentication
 from rest_framework.permissions import IsAuthenticated
+from common.constants import StoreCache
 from common.redis_client import redis_client
 
 class StoreView(APIView):
     authentication_classes = [CookieJWTAuthentication]
     permission_classes = [IsAuthenticated]
 
-    CACHE_KEY = "stores:active"
-    CACHE_TTL = 300 
+    cache = StoreCache.ACTIVE
 
     def get(self, request):
         try:
-            cached = redis_client.get(self.CACHE_KEY)
+            cached = redis_client.get(self.cache.key)
             if cached:
                 return Response(json.loads(cached))
             
@@ -27,7 +27,7 @@ class StoreView(APIView):
             data = StoreSerializer(objs, many=True).data
             response = {"data": data}
 
-            redis_client.set(self.CACHE_KEY, json.dumps(response), ex=self.CACHE_TTL)
+            redis_client.set(self.cache.key, json.dumps(response), ex=self.cache.ttl)
 
             return Response(response)
         
@@ -41,10 +41,10 @@ class StoreView(APIView):
             if serializer.is_valid():
                 data = serializer.save(created_by=request.user)
 
-                redis_client.delete(self.CACHE_KEY)
+                redis_client.delete(self.cache.key)
 
                 return Response({
-                    'data': StoreSerializer(data).data,
+                    'store': StoreSerializer(data).data,
                     'message': "Store created successfully"
                 }, status=status.HTTP_201_CREATED)
             
@@ -61,10 +61,10 @@ class StoreView(APIView):
                 if serializer.is_valid():
                     itemUpdate = serializer.save(updated_by=request.user)
 
-                    redis_client.delete(self.CACHE_KEY)
+                    redis_client.delete(self.cache.key)
 
                     return Response({
-                        'data': StoreSerializer(itemUpdate).data,
+                        'store': StoreSerializer(itemUpdate).data,
                         'message': "Store update successfully"
                     }, status=status.HTTP_201_CREATED)
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -80,7 +80,7 @@ class StoreView(APIView):
                 item.updated_by = request.user
                 item.save()
 
-                redis_client.delete(self.CACHE_KEY)
+                redis_client.delete(self.cache.key)
 
                 return Response({
                     'message': "Store delete successfully"
@@ -91,12 +91,11 @@ class StoreView(APIView):
         
 class StoreUserView(APIView):
 
-    CACHE_KEY = "storesHome:active"
-    CACHE_TTL = 300 
+    cache = StoreCache.ACTIVE
 
     def get(self, request):
         try:
-            cached = redis_client.get(self.CACHE_KEY)
+            cached = redis_client.get(self.cache.key)
             if cached:
                 return Response(json.loads(cached))
             
@@ -105,7 +104,7 @@ class StoreUserView(APIView):
 
             response = {"data": data}
 
-            redis_client.set(self.CACHE_KEY, json.dumps(response), ex=self.CACHE_TTL)
+            redis_client.set(self.cache.key, json.dumps(response), ex=self.cache.ttl)
 
             return Response(response)
         

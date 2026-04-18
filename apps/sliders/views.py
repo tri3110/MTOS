@@ -9,17 +9,17 @@ from apps.sliders.serializers import SliderSerializer
 from apps.users.authentication import CookieJWTAuthentication
 from rest_framework.permissions import IsAuthenticated
 from django.db.models import Max
+from common.constants import SliderCache
 from common.redis_client import redis_client
 
 class SliderView(APIView):
     authentication_classes = [CookieJWTAuthentication]
     permission_classes = [IsAuthenticated]
 
-    CACHE_KEY = "sliders:active"
-    CACHE_TTL = 300 
+    cache = SliderCache.ACTIVE
 
     def get(self, request):
-        cached = redis_client.get(self.CACHE_KEY)
+        cached = redis_client.get(self.cache.key)
         if cached:
             return Response(json.loads(cached))
         
@@ -32,7 +32,7 @@ class SliderView(APIView):
         data = SliderSerializer(sliders, many=True).data
         response = {"data": data}
 
-        redis_client.set(self.CACHE_KEY, json.dumps(response), ex=self.CACHE_TTL)
+        redis_client.set(self.cache.key, json.dumps(response), ex=self.cache.ttl)
 
         return Response(response)
     
@@ -47,7 +47,7 @@ class SliderView(APIView):
             if serializer.is_valid():
                 slider = serializer.save(created_by=request.user)
 
-                redis_client.delete(self.CACHE_KEY)
+                redis_client.delete(self.cache.key)
                 return Response({
                     'slider': SliderSerializer(slider).data,
                     'message': "Slider created successfully"
@@ -65,7 +65,7 @@ class SliderView(APIView):
                 if serializer.is_valid():
                     slider = serializer.save(updated_by=request.user)
                     
-                    redis_client.delete(self.CACHE_KEY)
+                    redis_client.delete(self.cache.key)
                     return Response({
                         'slider': SliderSerializer(slider).data,
                         'message': "Slider update successfully"
@@ -84,7 +84,7 @@ class SliderView(APIView):
                 slider.updated_by = request.user
                 slider.save()
 
-                redis_client.delete(self.CACHE_KEY)
+                redis_client.delete(self.cache.key)
 
                 return Response({
                     'message': "Slider delete successfully"
@@ -95,11 +95,10 @@ class SliderView(APIView):
         
 class SliderHomeView(APIView):
 
-    CACHE_KEY = "slidersHome:active"
-    CACHE_TTL = 300 
+    cache = SliderCache.ACTIVE
 
     def get(self, request):
-        cached = redis_client.get(self.CACHE_KEY)
+        cached = redis_client.get(self.cache.key)
         if cached:
             return Response(json.loads(cached))
         
@@ -108,6 +107,6 @@ class SliderHomeView(APIView):
 
         response = {"data": slider_data}
 
-        redis_client.set(self.CACHE_KEY, json.dumps(response), ex=self.CACHE_TTL)
+        redis_client.set(self.cache.key, json.dumps(response), ex=self.cache.ttl)
 
         return Response(response)

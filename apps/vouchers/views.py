@@ -42,7 +42,7 @@ class VoucherView(APIView):
                 redis_client.delete(self.CACHE_KEY)
 
                 return Response({
-                    'data': VoucherSerializer(data).data,
+                    'voucher': VoucherSerializer(data).data,
                     'message': "Voucher created successfully"
                 }, status=status.HTTP_201_CREATED)
             
@@ -60,7 +60,7 @@ class VoucherView(APIView):
                     itemUpdate = serializer.save(updated_by=request.user)
                     redis_client.delete(self.CACHE_KEY)
                     return Response({
-                        'data': VoucherSerializer(itemUpdate).data,
+                        'voucher': VoucherSerializer(itemUpdate).data,
                         'message': "Voucher update successfully"
                     }, status=status.HTTP_201_CREATED)
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
