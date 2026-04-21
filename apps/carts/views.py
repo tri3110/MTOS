@@ -3,11 +3,11 @@ from django.db import transaction
 from django.db.models import F
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
 
 from apps.users.authentication import CookieJWTAuthentication
 from apps.carts.models import Cart, CartItem, CartItemOption, CartItemTopping
 from apps.carts.serializers import CartItemSerializer
+from common.permissions import IsAdminOrReadOnly
 from common.redis_client import redis_client
 
 def get_cart_cache_key(user_id):
@@ -50,7 +50,7 @@ def build_db_map(db_items):
 
 class CartView(APIView):
     authentication_classes = [CookieJWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminOrReadOnly]
 
     def post(self, request):
         try:
@@ -112,7 +112,7 @@ class CartView(APIView):
 
 class CartAddView(APIView):
     authentication_classes = [CookieJWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminOrReadOnly]
 
     def get(self, request):
         try:

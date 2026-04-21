@@ -1,7 +1,6 @@
 import json
 
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
 from apps.users.authentication import CookieJWTAuthentication
 from apps.orders.models import Order
 from rest_framework.response import Response
@@ -11,6 +10,7 @@ from datetime import timedelta
 from django.utils import timezone
 from django.db.models import Sum, Count, Q
 
+from common.permissions import IsAdminOrReadOnly
 from common.redis_client import redis_client
 
 def build_series(queryset, from_date, days):
@@ -97,7 +97,7 @@ def build_multi_series(queryset, from_date, days):
 
 class DashboardView(APIView):
     authentication_classes = [CookieJWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminOrReadOnly]
 
     def get(self, request):
         from_date, to_date = parse_date_range(request)

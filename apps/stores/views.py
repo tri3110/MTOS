@@ -7,13 +7,13 @@ from django.db import transaction
 from apps.stores.models import StoreModel
 from apps.stores.serializers import StoreSerializer
 from apps.users.authentication import CookieJWTAuthentication
-from rest_framework.permissions import IsAuthenticated
 from common.constants import StoreCache
+from common.permissions import IsAdminOrReadOnly
 from common.redis_client import redis_client
 
 class StoreView(APIView):
     authentication_classes = [CookieJWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminOrReadOnly]
 
     cache = StoreCache.ACTIVE
 

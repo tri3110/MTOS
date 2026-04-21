@@ -4,14 +4,14 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.db import transaction
 from apps.users.authentication import CookieJWTAuthentication
-from rest_framework.permissions import IsAuthenticated
 from apps.vouchers.models import Voucher
 from apps.vouchers.serializers import VoucherSerializer
+from common.permissions import IsAdminOrReadOnly
 from common.redis_client import redis_client
 
 class VoucherView(APIView):
     authentication_classes = [CookieJWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminOrReadOnly]
 
     CACHE_KEY = "vouchers:active"
     CACHE_TTL = 300 

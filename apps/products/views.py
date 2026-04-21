@@ -4,21 +4,23 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.db import transaction, IntegrityError
+from apps.orders.models import OrderItem
 from apps.products.models import Category, Option, OptionGroup, Product, ProductOption, ProductTopping, Topping
 from apps.products.serializers import CategorySerializer, OptionGroupSerializer, ProductCreateSerializer, ProductSerializer, ToppingBaseSerializer, ToppingSerializer
 from apps.sliders.models import Slider
 from apps.sliders.serializers import SliderSerializer
 from apps.users.authentication import CookieJWTAuthentication
-from rest_framework.permissions import IsAuthenticated
 from django.contrib.postgres.search import TrigramSimilarity
 from django.db.models import Q, Prefetch
 from django.utils.text import slugify
+from apps.users.models import User
 from common.constants import CategoryCache, OptionGroupCache, ProductCache, ToppingCache
+from common.permissions import IsAdminOrReadOnly
 from common.redis_client import redis_client
 
 class ProductView(APIView):
     authentication_classes = [CookieJWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminOrReadOnly]
 
     def get(self, request):
         cache = ProductCache.FULL_DATA
@@ -275,9 +277,15 @@ class HomeDataView(APIView):
             .order_by("order", "-id")
         )
 
+        total_customers = User.objects.filter(role=User.Role.CUSTOMER).count()
+
+        total_drinks = OrderItem.objects.filter(order__status="completed").count()
+
         response_data = {
             "products": ProductSerializer(products, many=True).data,
-            "sliders": SliderSerializer(sliders, many=True).data
+            "sliders": SliderSerializer(sliders, many=True).data,
+            "total_customers": total_customers,
+            "total_drinks": total_drinks
         }
 
         redis_client.set(
@@ -290,7 +298,7 @@ class HomeDataView(APIView):
 
 class CategoryView(APIView):
     authentication_classes = [CookieJWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminOrReadOnly]
 
     def get(self, request):
         cache = CategoryCache.FULL_DATA
@@ -455,7 +463,7 @@ class CategoryUserView(APIView):
 
 class ToppingView(APIView):
     authentication_classes = [CookieJWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminOrReadOnly]
 
     def get(self, request):
         cache = ToppingCache.ACTIVE
@@ -529,7 +537,7 @@ class ToppingView(APIView):
 
 class OptionGroupView(APIView):
     authentication_classes = [CookieJWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminOrReadOnly]
 
     def get(self, request):
         cache = OptionGroupCache.ACTIVE

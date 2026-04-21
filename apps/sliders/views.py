@@ -7,14 +7,14 @@ from django.db import transaction
 from apps.sliders.models import Slider
 from apps.sliders.serializers import SliderSerializer
 from apps.users.authentication import CookieJWTAuthentication
-from rest_framework.permissions import IsAuthenticated
 from django.db.models import Max
 from common.constants import SliderCache
+from common.permissions import IsAdminOrReadOnly
 from common.redis_client import redis_client
 
 class SliderView(APIView):
     authentication_classes = [CookieJWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminOrReadOnly]
 
     cache = SliderCache.ACTIVE
 

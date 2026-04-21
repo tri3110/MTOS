@@ -1,0 +1,646 @@
+2026-04-21 13:09:00,142 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2026-04-21 13:09:05,953 [WARNING] django.request: Unauthorized: /api/admin/products/get/
+2026-04-21 13:09:05,953 [WARNING] django.server: "GET /api/admin/products/get/ HTTP/1.1" 401 58
+2026-04-21 13:09:10,690 [INFO] django.server: "GET /api/user/home/categories/get/ HTTP/1.1" 200 334
+2026-04-21 13:09:10,754 [INFO] django.server: "GET /api/user/home/get/ HTTP/1.1" 200 3424
+2026-04-21 13:09:10,776 [INFO] django.server: "GET /api/auth/me/ HTTP/1.1" 200 47
+2026-04-21 13:09:10,778 [INFO] django.server: "GET /api/user/stores/user/get/ HTTP/1.1" 200 195
+2026-04-21 13:09:10,835 [INFO] django.server: "GET /api/auth/themes/ HTTP/1.1" 200 90
+2026-04-21 13:09:15,464 [INFO] django.server: "GET /auth/login/google-oauth2/ HTTP/1.1" 302 0
+2026-04-21 13:09:19,063 [INFO] django.server: "GET /auth/complete/google-oauth2/?state=lq0GqDPzagEDwO9q5Jcs1SRcvfU6glVt&iss=https%3A%2F%2Faccounts.google.com&code=4%2F0Aci98E-O7bLp0Kt5_CNpRHRxPyr_5B3p3Y1MvGOii4jxWCFNRXQIFsw008YkjRWkQlj5bw&scope=email+profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&authuser=1&prompt=none HTTP/1.1" 302 0
+2026-04-21 13:09:19,531 [INFO] django.server: "GET /api/user/home/get/ HTTP/1.1" 200 3424
+2026-04-21 13:09:19,535 [INFO] django.server: "GET /api/user/home/categories/get/ HTTP/1.1" 200 334
+2026-04-21 13:09:19,559 [INFO] django.server: "GET /api/auth/me/ HTTP/1.1" 200 151
+2026-04-21 13:09:19,563 [INFO] django.server: "GET /api/user/stores/user/get/ HTTP/1.1" 200 195
+2026-04-21 13:09:19,569 [INFO] django.server: "GET /api/auth/themes/ HTTP/1.1" 200 90
+2026-04-21 13:09:35,366 [INFO] django.server: "GET /api/user/home/categories/get/ HTTP/1.1" 200 334
+2026-04-21 13:09:35,367 [INFO] django.server: "GET /api/user/home/get/ HTTP/1.1" 200 3424
+2026-04-21 13:09:35,371 [INFO] django.server: "GET /api/user/stores/user/get/ HTTP/1.1" 200 195
+2026-04-21 13:09:37,894 [INFO] django.server: "GET /api/auth/me/ HTTP/1.1" 200 151
+2026-04-21 13:09:37,899 [INFO] django.server: "GET /api/auth/themes/ HTTP/1.1" 200 90
+2026-04-21 13:09:37,924 [INFO] django.server: "GET /api/admin/dashboard/?range=30d HTTP/1.1" 200 1114
+2026-04-21 13:09:37,953 [INFO] django.server: "GET /api/auth/themes/ HTTP/1.1" 200 90
+2026-04-21 13:09:37,998 [INFO] django.server: "GET /api/admin/dashboard/ HTTP/1.1" 200 599
+2026-04-21 13:09:43,493 [INFO] django.server: "GET /api/admin/dashboard/?range=30d HTTP/1.1" 200 1114
+2026-04-21 13:09:43,494 [INFO] django.server: "GET /api/admin/dashboard/ HTTP/1.1" 200 599
+2026-04-21 13:09:43,732 [INFO] django.server: "GET /api/admin/dashboard/?range=30d HTTP/1.1" 200 1114
+2026-04-21 13:09:43,753 [INFO] django.server: "GET /api/auth/themes/ HTTP/1.1" 200 90
+2026-04-21 13:09:43,753 [INFO] django.server: "GET /api/auth/me/ HTTP/1.1" 200 151
+2026-04-21 13:09:43,808 [INFO] django.server: "GET /api/admin/dashboard/ HTTP/1.1" 200 599
+2026-04-21 13:09:43,812 [INFO] django.server: "GET /api/auth/themes/ HTTP/1.1" 200 90
+2026-04-21 13:09:48,682 [INFO] django.server: "POST /api/auth/logout/ HTTP/1.1" 205 28
+2026-04-21 13:09:54,926 [INFO] django.server: "GET /api/auth/me/ HTTP/1.1" 200 47
+2026-04-21 13:09:54,926 [INFO] django.server: "GET /api/user/home/categories/get/ HTTP/1.1" 200 334
+2026-04-21 13:09:54,927 [INFO] django.server: "GET /api/user/stores/user/get/ HTTP/1.1" 200 195
+2026-04-21 13:09:54,938 [INFO] django.server: "GET /api/user/home/get/ HTTP/1.1" 200 3424
+2026-04-21 13:09:55,083 [INFO] django.server: "GET /api/auth/themes/ HTTP/1.1" 200 90
+2026-04-21 13:09:57,585 [INFO] django.server: "GET /auth/login/google-oauth2/ HTTP/1.1" 302 0
+2026-04-21 13:10:01,079 [INFO] django.server: "GET /auth/complete/google-oauth2/?state=lq0GqDPzagEDwO9q5Jcs1SRcvfU6glVt&iss=https%3A%2F%2Faccounts.google.com&code=4%2F0Aci98E8uyDlmbENRIQwrjhbKtz6X5NpzAUaiOqls048Ecx-sN4Q-MHtEjr4cSMJ9RAQfhA&scope=email+profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+openid&authuser=1&prompt=none HTTP/1.1" 302 0
+2026-04-21 13:10:01,371 [INFO] django.server: "GET /api/user/home/categories/get/ HTTP/1.1" 200 334
+2026-04-21 13:10:01,381 [INFO] django.server: "GET /api/user/home/get/ HTTP/1.1" 200 3424
+2026-04-21 13:10:01,386 [INFO] django.server: "GET /api/user/stores/user/get/ HTTP/1.1" 200 195
+2026-04-21 13:10:01,400 [INFO] django.server: "GET /api/auth/me/ HTTP/1.1" 200 151
+2026-04-21 13:10:01,405 [INFO] django.server: "GET /api/auth/themes/ HTTP/1.1" 200 90
+2026-04-21 13:10:12,544 [INFO] django.server: "GET /api/user/home/categories/get/ HTTP/1.1" 200 334
+2026-04-21 13:10:12,552 [INFO] django.server: "GET /api/user/home/get/ HTTP/1.1" 200 3424
+2026-04-21 13:10:12,651 [INFO] django.server: "GET /api/user/stores/user/get/ HTTP/1.1" 200 195
+2026-04-21 13:13:47,815 [INFO] django.server: "GET /api/user/home/get/ HTTP/1.1" 200 3424
+2026-04-21 13:13:47,820 [INFO] django.server: "GET /api/user/home/categories/get/ HTTP/1.1" 200 334
+2026-04-21 13:13:47,821 [INFO] django.server: "GET /api/user/stores/user/get/ HTTP/1.1" 200 195
+2026-04-21 13:13:51,364 [INFO] django.server: "GET /api/user/home/categories/get/ HTTP/1.1" 200 334
+2026-04-21 13:13:51,382 [INFO] django.server: "GET /api/auth/me/ HTTP/1.1" 200 151
+2026-04-21 13:13:51,385 [INFO] django.server: "GET /api/user/stores/user/get/ HTTP/1.1" 200 195
+2026-04-21 13:13:51,472 [INFO] django.server: "GET /api/user/home/get/ HTTP/1.1" 200 3424
+2026-04-21 13:13:51,519 [INFO] django.server: "GET /api/auth/themes/ HTTP/1.1" 200 90
+2026-04-21 13:13:55,828 [INFO] django.server: "POST /api/auth/logout/ HTTP/1.1" 205 28
+2026-04-21 13:14:02,498 [INFO] django.server: "GET /api/user/stores/user/get/ HTTP/1.1" 200 195
+2026-04-21 13:14:02,499 [INFO] django.server: "GET /api/user/home/categories/get/ HTTP/1.1" 200 334
+2026-04-21 13:14:02,499 [INFO] django.server: "GET /api/user/home/get/ HTTP/1.1" 200 3424
+2026-04-21 13:14:02,685 [INFO] django.server: "GET /api/user/home/get/ HTTP/1.1" 200 3424
+2026-04-21 13:14:02,688 [INFO] django.server: "GET /api/auth/me/ HTTP/1.1" 200 47
+2026-04-21 13:14:02,693 [INFO] django.server: "GET /api/user/stores/user/get/ HTTP/1.1" 200 195
+2026-04-21 13:14:02,693 [INFO] django.server: "GET /api/user/home/categories/get/ HTTP/1.1" 200 334
+2026-04-21 13:14:02,743 [INFO] django.server: "GET /api/auth/themes/ HTTP/1.1" 200 90
+2026-04-21 13:14:05,212 [INFO] django.server: "GET /api/auth/me/ HTTP/1.1" 200 47
+2026-04-21 13:14:05,258 [INFO] django.server: "GET /api/auth/themes/ HTTP/1.1" 200 90
+2026-04-21 13:14:11,186 [INFO] django.server: "POST /api/auth/login/ HTTP/1.1" 200 172
+2026-04-21 13:14:11,374 [INFO] django.server: "GET /api/auth/themes/ HTTP/1.1" 200 90
+2026-04-21 13:14:11,379 [INFO] django.server: "GET /api/admin/dashboard/?range=30d HTTP/1.1" 200 1114
+2026-04-21 13:14:11,455 [INFO] django.server: "GET /api/admin/dashboard/ HTTP/1.1" 200 599
+2026-04-21 13:14:18,430 [INFO] django.server: "GET /api/admin/dashboard/?range=30d HTTP/1.1" 200 1114
+2026-04-21 13:14:18,431 [INFO] django.server: "GET /api/admin/dashboard/ HTTP/1.1" 200 599
+2026-04-21 13:14:19,896 [INFO] django.server: "GET /api/admin/dashboard/?range=30d HTTP/1.1" 200 1114
+2026-04-21 13:14:19,901 [INFO] django.server: "GET /api/auth/themes/ HTTP/1.1" 200 90
+2026-04-21 13:14:19,917 [INFO] django.server: "GET /api/auth/me/ HTTP/1.1" 200 146
+2026-04-21 13:14:19,957 [INFO] django.server: "GET /api/auth/themes/ HTTP/1.1" 200 90
+2026-04-21 13:14:19,963 [INFO] django.server: "GET /api/admin/dashboard/ HTTP/1.1" 200 599
+2026-04-21 13:14:37,324 [INFO] django.server: "GET /api/admin/dashboard/?range=30d HTTP/1.1" 200 1114
+2026-04-21 13:14:37,325 [INFO] django.server: "GET /api/admin/dashboard/ HTTP/1.1" 200 599
+2026-04-21 13:15:17,972 [WARNING] django.request: Not Found: /metrics
+2026-04-21 13:15:17,972 [WARNING] django.server: "GET /metrics HTTP/1.1" 404 4495
+2026-04-21 13:15:18,144 [WARNING] django.request: Not Found: /favicon.ico
+2026-04-21 13:15:18,144 [WARNING] django.server: "GET /favicon.ico HTTP/1.1" 404 4507
+2026-04-21 13:15:46,612 [WARNING] django.request: Not Found: /metrics
+2026-04-21 13:15:46,612 [WARNING] django.server: "GET /metrics HTTP/1.1" 404 4495
+2026-04-21 13:16:28,444 [INFO] django.utils.autoreload: E:\MTOS\MTOS\backend\config\settings.py changed, reloading.
+2026-04-21 13:16:30,589 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2026-04-21 13:16:34,549 [INFO] django.utils.autoreload: E:\MTOS\MTOS\backend\config\settings.py changed, reloading.
+2026-04-21 13:16:36,409 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2026-04-21 13:17:55,913 [INFO] django.utils.autoreload: E:\MTOS\MTOS\backend\config\settings.py changed, reloading.
+2026-04-21 13:17:58,186 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2026-04-21 13:18:14,288 [INFO] django.utils.autoreload: E:\MTOS\MTOS\backend\config\settings.py changed, reloading.
+2026-04-21 13:18:16,282 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2026-04-21 13:18:19,999 [INFO] django.utils.autoreload: E:\MTOS\MTOS\backend\config\settings.py changed, reloading.
+2026-04-21 13:18:21,971 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2026-04-21 13:19:06,501 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2026-04-21 13:19:10,170 [WARNING] django.request: Not Found: /metrics
+2026-04-21 13:19:10,171 [WARNING] django.server: "GET /metrics HTTP/1.1" 404 4646
+2026-04-21 13:19:13,738 [WARNING] django.request: Not Found: /metrics
+2026-04-21 13:19:13,738 [WARNING] django.server: "GET /metrics HTTP/1.1" 404 4646
+2026-04-21 13:19:14,978 [WARNING] django.request: Not Found: /metrics
+2026-04-21 13:19:14,980 [WARNING] django.server: "GET /metrics HTTP/1.1" 404 4646
+2026-04-21 13:19:15,902 [WARNING] django.request: Not Found: /metrics
+2026-04-21 13:19:15,903 [WARNING] django.server: "GET /metrics HTTP/1.1" 404 4646
+2026-04-21 13:19:16,903 [WARNING] django.request: Not Found: /metrics
+2026-04-21 13:19:16,903 [WARNING] django.server: "GET /metrics HTTP/1.1" 404 4646
+2026-04-21 13:19:40,932 [WARNING] django.request: Not Found: /metrics
+2026-04-21 13:19:40,933 [WARNING] django.server: "GET /metrics HTTP/1.1" 404 4646
+2026-04-21 13:20:49,205 [INFO] django.utils.autoreload: E:\MTOS\MTOS\backend\config\urls.py changed, reloading.
+2026-04-21 13:20:51,492 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2026-04-21 13:20:54,554 [INFO] django.server: "GET /metrics HTTP/1.1" 301 0
+2026-04-21 13:20:54,560 [INFO] django.server: "GET /metrics/ HTTP/1.1" 200 17468
+2026-04-21 13:21:38,795 [INFO] django.server: "GET /api/admin/dashboard/?range=30d HTTP/1.1" 200 1114
+2026-04-21 13:21:38,795 [INFO] django.server: "GET /api/admin/dashboard/ HTTP/1.1" 200 599
+2026-04-21 13:25:44,816 [INFO] django.utils.autoreload: E:\MTOS\MTOS\backend\config\settings.py changed, reloading.
+[2026-04-21 13:25:47,049] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2026-04-21 13:25:52,377] INFO django.server "GET /api/admin/dashboard/?range=30d HTTP/1.1" 200 1114
+[2026-04-21 13:25:52,377] INFO django.server "GET /api/admin/dashboard/ HTTP/1.1" 200 599
+[2026-04-21 13:25:54,325] INFO django.server "GET /api/auth/themes/ HTTP/1.1" 200 90
+[2026-04-21 13:25:54,335] INFO django.server "GET /api/admin/dashboard/?range=30d HTTP/1.1" 200 1114
+[2026-04-21 13:25:54,342] INFO django.server "GET /api/auth/me/ HTTP/1.1" 200 146
+[2026-04-21 13:25:54,391] INFO django.server "GET /api/admin/dashboard/ HTTP/1.1" 200 599
+[2026-04-21 13:25:54,497] INFO django.server "GET /api/auth/themes/ HTTP/1.1" 200 90
+[2026-04-21 13:25:59,374] INFO django.server "GET /api/auth/themes/ HTTP/1.1" 200 90
+[2026-04-21 13:25:59,376] INFO django.server "GET /api/auth/me/ HTTP/1.1" 200 146
+[2026-04-21 13:25:59,379] INFO django.server "GET /api/admin/dashboard/?range=30d HTTP/1.1" 200 1114
+[2026-04-21 13:25:59,433] INFO django.server "GET /api/auth/themes/ HTTP/1.1" 200 90
+[2026-04-21 13:25:59,443] INFO django.server "GET /api/admin/dashboard/ HTTP/1.1" 200 599
+[2026-04-21 13:26:01,255] INFO django.server "GET /api/admin/products/get/ HTTP/1.1" 200 8325
+[2026-04-21 13:26:21,093] INFO django.server "GET /api/admin/products/get/ HTTP/1.1" 200 8325
+[2026-04-21 13:31:29,572] INFO django.utils.autoreload E:\MTOS\MTOS\backend\config\settings.py changed, reloading.
+[2026-04-21 13:31:31,958] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2026-04-21 13:31:45,448] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2026-04-21 13:33:24,745] INFO django.utils.autoreload E:\MTOS\MTOS\backend\config\settings.py changed, reloading.
+[2026-04-21 13:33:26,739] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2026-04-21 13:33:34,629] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2026-04-21 13:33:37,112] INFO app Request: GET /api/admin/products/get/
+[2026-04-21 13:33:37,244] INFO app Response: 200
+[2026-04-21 13:33:37,247] INFO django.server "GET /api/admin/products/get/ HTTP/1.1" 200 8325
+[2026-04-21 13:33:39,993] INFO app Request: GET /api/admin/products/get/
+[2026-04-21 13:33:39,997] INFO app Request: GET /api/auth/themes/
+[2026-04-21 13:33:40,061] INFO app Response: 200
+[2026-04-21 13:33:40,063] INFO app Response: 200
+[2026-04-21 13:33:40,068] INFO django.server "GET /api/admin/products/get/ HTTP/1.1" 200 8325
+[2026-04-21 13:33:40,068] INFO django.server "GET /api/auth/themes/ HTTP/1.1" 200 90
+[2026-04-21 13:33:40,073] INFO app Request: GET /api/auth/me/
+[2026-04-21 13:33:40,075] INFO app Request: GET /api/auth/themes/
+[2026-04-21 13:33:40,144] INFO app Response: 200
+[2026-04-21 13:33:40,149] INFO django.server "GET /api/auth/me/ HTTP/1.1" 200 146
+[2026-04-21 13:33:40,150] INFO app Response: 200
+[2026-04-21 13:33:40,154] INFO django.server "GET /api/auth/themes/ HTTP/1.1" 200 90
+[2026-04-21 13:33:57,370] INFO app Request: GET /api/admin/products/get/
+[2026-04-21 13:33:57,420] INFO app Response: 200
+[2026-04-21 13:33:57,424] INFO django.server "GET /api/admin/products/get/ HTTP/1.1" 200 8325
+[2026-04-21 13:34:31,869] INFO django.utils.autoreload E:\MTOS\MTOS\backend\middleware\request_log.py changed, reloading.
+[2026-04-21 13:34:34,015] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2026-04-21 13:34:39,986] INFO app Request started
+[2026-04-21 13:34:40,097] INFO app Request finished
+[2026-04-21 13:34:40,101] INFO django.server "GET /api/admin/products/get/ HTTP/1.1" 200 8325
+[2026-04-21 13:34:41,038] INFO app Request started
+[2026-04-21 13:34:41,042] INFO app Request started
+[2026-04-21 13:34:41,107] INFO app Request finished
+[2026-04-21 13:34:41,112] INFO django.server "GET /api/admin/products/get/ HTTP/1.1" 200 8325
+[2026-04-21 13:34:41,116] INFO app Request started
+[2026-04-21 13:34:41,122] INFO app Request finished
+[2026-04-21 13:34:41,126] INFO django.server "GET /api/auth/themes/ HTTP/1.1" 200 90
+[2026-04-21 13:34:41,132] INFO app Request started
+[2026-04-21 13:34:41,206] INFO app Request finished
+[2026-04-21 13:34:41,209] INFO django.server "GET /api/auth/me/ HTTP/1.1" 200 146
+[2026-04-21 13:34:41,305] INFO app Request finished
+[2026-04-21 13:34:41,308] INFO django.server "GET /api/auth/themes/ HTTP/1.1" 200 90
+[2026-04-21 13:35:00,480] INFO app Request started
+[2026-04-21 13:35:00,535] INFO app Request finished
+[2026-04-21 13:35:00,537] INFO django.server "GET /api/admin/products/get/ HTTP/1.1" 200 8325
+[2026-04-21 13:35:00,651] INFO app Request started
+[2026-04-21 13:35:00,740] INFO app Request finished
+[2026-04-21 13:35:00,746] INFO django.server "GET /api/admin/dashboard/?range=30d HTTP/1.1" 200 1114
+[2026-04-21 13:35:00,761] INFO app Request started
+[2026-04-21 13:35:00,833] INFO app Request finished
+[2026-04-21 13:35:00,838] INFO django.server "GET /api/admin/dashboard/ HTTP/1.1" 200 599
+[2026-04-21 13:35:08,693] INFO app Request started
+[2026-04-21 13:35:08,695] INFO app Request started
+[2026-04-21 13:35:08,752] INFO app Request finished
+[2026-04-21 13:35:08,757] INFO django.server "GET /api/admin/dashboard/ HTTP/1.1" 200 599
+[2026-04-21 13:35:08,760] INFO app Request finished
+[2026-04-21 13:35:08,762] INFO django.server "GET /api/admin/dashboard/?range=30d HTTP/1.1" 200 1114
+[2026-04-21 13:35:29,777] INFO django.utils.autoreload E:\MTOS\MTOS\backend\middleware\request_log.py changed, reloading.
+[2026-04-21 13:35:31,750] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2026-04-21 13:35:36,993] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2026-04-21 13:36:09,820] INFO app Request started
+[2026-04-21 13:36:09,821] INFO app Request started
+[2026-04-21 13:36:09,979] INFO app Request finished
+[2026-04-21 13:36:09,980] INFO app Request finished
+[2026-04-21 13:36:09,984] INFO django.server "GET /api/admin/dashboard/?range=30d HTTP/1.1" 200 1114
+[2026-04-21 13:36:09,988] INFO django.server "GET /api/admin/dashboard/ HTTP/1.1" 200 599
+[2026-04-21 13:36:10,877] INFO app Request started
+[2026-04-21 13:36:10,884] INFO app Request started
+[2026-04-21 13:36:10,884] INFO app Request started
+[2026-04-21 13:36:10,943] INFO app Request finished
+[2026-04-21 13:36:10,947] INFO django.server "GET /api/admin/dashboard/?range=30d HTTP/1.1" 200 1114
+[2026-04-21 13:36:10,956] INFO app Request finished
+[2026-04-21 13:36:10,959] INFO app Request started
+[2026-04-21 13:36:10,968] INFO app Request finished
+[2026-04-21 13:36:10,979] INFO django.server "GET /api/auth/themes/ HTTP/1.1" 200 90
+[2026-04-21 13:36:10,980] INFO django.server "GET /api/auth/me/ HTTP/1.1" 200 146
+[2026-04-21 13:36:10,984] INFO app Request started
+[2026-04-21 13:36:11,038] INFO app Request finished
+[2026-04-21 13:36:11,042] INFO django.server "GET /api/admin/dashboard/ HTTP/1.1" 200 599
+[2026-04-21 13:36:11,051] INFO app Request finished
+[2026-04-21 13:36:11,055] INFO django.server "GET /api/auth/themes/ HTTP/1.1" 200 90
+[2026-04-21 13:36:19,100] INFO app Request started
+[2026-04-21 13:36:19,101] INFO app Request started
+[2026-04-21 13:36:19,167] INFO app Request finished
+[2026-04-21 13:36:19,169] INFO app Request finished
+[2026-04-21 13:36:19,175] INFO django.server "GET /api/admin/dashboard/?range=30d HTTP/1.1" 200 1114
+[2026-04-21 13:36:19,176] INFO django.server "GET /api/admin/dashboard/ HTTP/1.1" 200 599
+[2026-04-21 13:36:19,435] INFO app Request started
+[2026-04-21 13:36:19,442] INFO app Request started
+[2026-04-21 13:36:19,444] INFO app Request started
+[2026-04-21 13:36:19,516] INFO app Request finished
+[2026-04-21 13:36:19,519] INFO django.server "GET /api/admin/dashboard/?range=30d HTTP/1.1" 200 1114
+[2026-04-21 13:36:19,541] INFO app Request started
+[2026-04-21 13:36:19,544] INFO app Request finished
+[2026-04-21 13:36:19,549] INFO app Request finished
+[2026-04-21 13:36:19,564] INFO django.server "GET /api/auth/themes/ HTTP/1.1" 200 90
+[2026-04-21 13:36:19,569] INFO app Request started
+[2026-04-21 13:36:19,570] INFO django.server "GET /api/auth/me/ HTTP/1.1" 200 146
+[2026-04-21 13:36:19,636] INFO app Request finished
+[2026-04-21 13:36:19,641] INFO django.server "GET /api/admin/dashboard/ HTTP/1.1" 200 599
+[2026-04-21 13:36:19,651] INFO app Request finished
+[2026-04-21 13:36:19,655] INFO django.server "GET /api/auth/themes/ HTTP/1.1" 200 90
+[2026-04-21 13:36:35,830] INFO app Request started
+[2026-04-21 13:36:35,832] INFO app Request started
+[2026-04-21 13:36:35,885] INFO app Request finished
+[2026-04-21 13:36:35,886] INFO app Request finished
+[2026-04-21 13:36:35,891] INFO django.server "GET /api/admin/dashboard/?range=30d HTTP/1.1" 200 1114
+[2026-04-21 13:36:35,891] INFO django.server "GET /api/admin/dashboard/ HTTP/1.1" 200 599
+[2026-04-21 13:37:39,957] INFO django.utils.autoreload E:\MTOS\MTOS\backend\config\settings.py changed, reloading.
+[2026-04-21 13:38:21,006] INFO django.utils.autoreload Watching for file changes with StatReloader
+[2026-04-21 13:38:30,890] INFO django.utils.autoreload E:\MTOS\MTOS\backend\config\settings.py changed, reloading.
+[2026-04-21 13:41:31,899] INFO app Request started
+[2026-04-21 13:41:31,900] INFO app Request started
+[2026-04-21 13:41:31,902] INFO app Request started
+[2026-04-21 13:41:32,087] INFO app Request finished
+[2026-04-21 13:41:32,088] INFO app Request finished
+[2026-04-21 13:41:32,091] INFO app Request finished
+[2026-04-21 13:41:33,171] INFO app Request started
+[2026-04-21 13:41:33,173] INFO app Request started
+[2026-04-21 13:41:33,175] INFO app Request started
+[2026-04-21 13:41:33,182] INFO app Request started
+[2026-04-21 13:41:33,275] INFO app Request finished
+[2026-04-21 13:41:33,283] INFO app Request started
+[2026-04-21 13:41:33,290] INFO app Request finished
+[2026-04-21 13:41:33,305] INFO app Request finished
+[2026-04-21 13:41:33,308] INFO app Request finished
+[2026-04-21 13:41:33,352] INFO app Request finished
+[2026-04-21 13:41:41,599] INFO app Request started
+[2026-04-21 13:41:41,601] INFO app Request started
+[2026-04-21 13:41:41,602] INFO app Request started
+[2026-04-21 13:41:41,663] INFO app Request finished
+[2026-04-21 13:41:41,663] INFO app Request finished
+[2026-04-21 13:41:41,769] INFO app Request finished
+[2026-04-21 13:41:50,606] INFO app Request started
+[2026-04-21 13:41:50,608] INFO app Request started
+[2026-04-21 13:41:50,609] INFO app Request started
+[2026-04-21 13:41:50,670] INFO app Request finished
+[2026-04-21 13:41:50,676] INFO app Request finished
+[2026-04-21 13:41:50,796] INFO app Request finished
+[2026-04-21 13:41:50,877] INFO app Request started
+[2026-04-21 13:41:50,884] INFO app Request started
+[2026-04-21 13:41:50,886] INFO app Request started
+[2026-04-21 13:41:50,952] INFO app Request finished
+[2026-04-21 13:41:50,955] INFO app Request finished
+[2026-04-21 13:41:50,959] INFO app Request finished
+[2026-04-21 13:41:50,967] INFO app Request started
+[2026-04-21 13:41:50,978] INFO app Request started
+[2026-04-21 13:41:51,051] INFO app Request finished
+[2026-04-21 13:41:51,117] INFO app Request finished
+[2026-04-21 13:42:01,517] INFO app Request started
+[2026-04-21 13:42:01,519] INFO app Request started
+[2026-04-21 13:42:01,582] INFO app Request finished
+[2026-04-21 13:42:01,584] INFO app Request finished
+[2026-04-21 13:42:01,742] INFO app Request started
+[2026-04-21 13:42:01,842] INFO app Request finished
+[2026-04-21 13:42:13,976] INFO app Request started
+[2026-04-21 13:42:14,063] INFO app Request finished
+[2026-04-21 13:43:25,245] INFO app [cd4b7507-6cef-4f05-9228-28ed26f0633a] START GET /api/admin/orders/get/ user=None ip=127.0.0.1
+[2026-04-21 13:43:25,345] INFO app [cd4b7507-6cef-4f05-9228-28ed26f0633a] END GET /api/admin/orders/get/ 200 145.9ms
+[2026-04-21 13:43:41,744] INFO app [af11bd76-f006-4083-991e-cc13acb70318] START GET /api/admin/orders/get/ user=None ip=127.0.0.1
+[2026-04-21 13:43:41,782] INFO app [af11bd76-f006-4083-991e-cc13acb70318] END GET /api/admin/orders/get/ 200 83.76ms
+[2026-04-21 13:43:41,916] INFO app [f62e9b29-3d0d-41e4-b57e-fc819456ae26] START GET /api/admin/products/get/ user=None ip=127.0.0.1
+[2026-04-21 13:43:42,025] INFO app [f62e9b29-3d0d-41e4-b57e-fc819456ae26] END GET /api/admin/products/get/ 200 161.15ms
+[2026-04-21 13:43:51,930] INFO app [e9de1856-f9a4-42b4-9f36-cd0531ee3103] START GET /api/admin/products/get/ user=None ip=127.0.0.1
+[2026-04-21 13:43:51,938] INFO app [e9de1856-f9a4-42b4-9f36-cd0531ee3103] END GET /api/admin/products/get/ 200 60.9ms
+[2026-04-21 13:43:54,162] INFO app [0580f685-4976-4b93-836b-798145f51e73] START GET /api/admin/products/get/ user=None ip=127.0.0.1
+[2026-04-21 13:43:54,169] INFO app [0580f685-4976-4b93-836b-798145f51e73] END GET /api/admin/products/get/ 200 56.88ms
+[2026-04-21 13:43:54,236] INFO app [ddd1300c-9ab6-4c31-bfe4-f8d8da2c77c1] START GET /api/auth/me/ user=None ip=127.0.0.1
+[2026-04-21 13:43:54,248] INFO app [ddd1300c-9ab6-4c31-bfe4-f8d8da2c77c1] END GET /api/auth/me/ 200 70.92ms
+[2026-04-21 13:43:54,281] INFO app [4e61de1a-9eb8-40c3-b953-063f62cea8d7] START GET /api/auth/themes/ user=None ip=127.0.0.1
+[2026-04-21 13:43:54,290] INFO app [4e61de1a-9eb8-40c3-b953-063f62cea8d7] END GET /api/auth/themes/ 200 174.54ms
+[2026-04-21 13:43:54,344] INFO app [3f8d1828-1e27-4635-86e7-47052fc39cb7] START GET /api/auth/themes/ user=None ip=127.0.0.1
+[2026-04-21 13:43:54,351] INFO app [3f8d1828-1e27-4635-86e7-47052fc39cb7] END GET /api/auth/themes/ 200 53.52ms
+[2026-04-21 13:44:48,882] INFO app [74a4514b-18c9-4556-8f7a-5753522195ad] START GET /api/admin/products/get/ user=None ip=127.0.0.1
+[2026-04-21 13:44:48,921] INFO app [74a4514b-18c9-4556-8f7a-5753522195ad] END GET /api/admin/products/get/ 200 23864.73ms
+[2026-04-21 13:44:48,923] WARNING app [74a4514b-18c9-4556-8f7a-5753522195ad] SLOW GET /api/admin/products/get/ 23864.73ms
+[2026-04-21 13:44:48,936] INFO app [d4a51ac3-07b3-4343-b457-8f6631cd4771] START GET /api/auth/themes/ user=None ip=127.0.0.1
+[2026-04-21 13:44:48,936] INFO app [bd263d07-6ddd-4400-bf4c-e5be5d2ded47] START GET /api/auth/me/ user=None ip=127.0.0.1
+[2026-04-21 13:44:48,937] INFO app [2c1bba6c-ee14-4711-b488-8b3e5323eefc] START GET /api/auth/themes/ user=None ip=127.0.0.1
+[2026-04-21 13:44:48,945] INFO app [b01a264c-8a15-423c-b35a-b5aba4b91001] START GET /api/admin/products/get/ user=None ip=127.0.0.1
+[2026-04-21 13:44:48,957] INFO app [b01a264c-8a15-423c-b35a-b5aba4b91001] END GET /api/admin/products/get/ 200 80.6ms
+[2026-04-21 13:44:48,966] INFO app [d4a51ac3-07b3-4343-b457-8f6631cd4771] END GET /api/auth/themes/ 200 128.28ms
+[2026-04-21 13:44:48,967] INFO app [2c1bba6c-ee14-4711-b488-8b3e5323eefc] END GET /api/auth/themes/ 200 106.53ms
+[2026-04-21 13:44:48,978] INFO app [bd263d07-6ddd-4400-bf4c-e5be5d2ded47] END GET /api/auth/me/ 200 142.77ms
+[2026-04-21 13:44:59,593] INFO app [e28df04f-eecc-4b9a-8ba7-a5ad0fa393ec] START GET /api/admin/products/get/ user=None ip=127.0.0.1
+[2026-04-21 13:44:59,606] INFO app [e28df04f-eecc-4b9a-8ba7-a5ad0fa393ec] END GET /api/admin/products/get/ 200 63.04ms
+[2026-04-21 13:46:19,355] INFO app [89f044df-bab3-41d9-bc70-d5c5f661b9b3] START GET /api/admin/products/get/ user=None ip=127.0.0.1
+[2026-04-21 13:46:19,431] INFO app [89f044df-bab3-41d9-bc70-d5c5f661b9b3] END GET /api/admin/products/get/ 200 120.24ms
+[2026-04-21 13:47:04,320] INFO app [369d4006-3128-4aed-8fb6-71de1b2c543b] START GET /api/admin/products/get/ user=None ip=127.0.0.1
+[2026-04-21 13:47:04,392] INFO app [369d4006-3128-4aed-8fb6-71de1b2c543b] END GET /api/admin/products/get/ 200 120.78ms
+[2026-04-21 13:47:05,290] INFO app [bc10f97c-e19b-49f5-8397-f3cf1f56fad6] START GET /api/admin/products/get/ user=None ip=127.0.0.1
+[2026-04-21 13:47:05,292] INFO app [b332e48c-fd56-44f3-a1e7-6185f5c00e57] START GET /api/auth/themes/ user=None ip=127.0.0.1
+[2026-04-21 13:47:05,305] INFO app [bc10f97c-e19b-49f5-8397-f3cf1f56fad6] END GET /api/admin/products/get/ 200 67.14ms
+[2026-04-21 13:47:05,307] INFO app [b332e48c-fd56-44f3-a1e7-6185f5c00e57] END GET /api/auth/themes/ 200 64.9ms
+[2026-04-21 13:47:05,367] INFO app [b809ab6a-f479-4dde-bc6d-03f0138062c0] START GET /api/auth/me/ user=None ip=127.0.0.1
+[2026-04-21 13:47:05,374] INFO app [c967c846-adfd-41ee-b87d-c4ebadc1bea0] START GET /api/auth/themes/ user=None ip=127.0.0.1
+[2026-04-21 13:47:05,385] INFO app [b809ab6a-f479-4dde-bc6d-03f0138062c0] END GET /api/auth/me/ 200 71.2ms
+[2026-04-21 13:47:05,394] INFO app [c967c846-adfd-41ee-b87d-c4ebadc1bea0] END GET /api/auth/themes/ 200 75.9ms
+[2026-04-21 13:47:18,482] INFO app [3288a0d8-c331-4123-8726-d920c0dc8db1] START GET /api/admin/products/get/ user=None ip=127.0.0.1
+[2026-04-21 13:47:18,493] INFO app [3288a0d8-c331-4123-8726-d920c0dc8db1] END GET /api/admin/products/get/ 200 61.67ms
+[2026-04-21 13:47:18,694] INFO app [1be1ab72-eab8-4c43-b6a2-5cadfd9132a6] START GET /api/admin/dashboard/ user=None ip=127.0.0.1
+[2026-04-21 13:47:18,722] INFO app [1be1ab72-eab8-4c43-b6a2-5cadfd9132a6] END GET /api/admin/dashboard/ 200 72.64ms
+[2026-04-21 13:47:18,791] INFO app [b76c22ff-3a2b-4fa7-a75b-f3b0030a7849] START GET /api/admin/dashboard/ user=None ip=127.0.0.1
+[2026-04-21 13:47:18,808] INFO app [b76c22ff-3a2b-4fa7-a75b-f3b0030a7849] END GET /api/admin/dashboard/ 200 72.75ms
+[2026-04-21 13:47:29,692] INFO app [1d53343d-2ead-434a-8794-3f36ccf8c813] START GET /api/admin/dashboard/ user=None ip=127.0.0.1
+[2026-04-21 13:47:29,698] INFO app [dde2257b-a224-49df-980a-a45242391b96] START GET /api/admin/dashboard/ user=None ip=127.0.0.1
+[2026-04-21 13:47:29,705] INFO app [1d53343d-2ead-434a-8794-3f36ccf8c813] END GET /api/admin/dashboard/ 200 65.33ms
+[2026-04-21 13:47:29,714] INFO app [dde2257b-a224-49df-980a-a45242391b96] END GET /api/admin/dashboard/ 200 70.33ms
+[2026-04-21 13:47:33,114] INFO app [1c8e734a-f311-4c1c-b8ec-ce91445e9cca] START GET /api/user/home/categories/get/ user=None ip=127.0.0.1
+[2026-04-21 13:47:33,124] INFO app [34b811cd-25ad-4256-a2ca-0dbaf6101d78] START GET /api/user/home/get/ user=None ip=127.0.0.1
+[2026-04-21 13:47:33,127] INFO app [43116fc3-ac98-428e-b4e5-50e9026dd056] START GET /api/auth/me/ user=None ip=127.0.0.1
+[2026-04-21 13:47:33,141] INFO app [1c8e734a-f311-4c1c-b8ec-ce91445e9cca] END GET /api/user/home/categories/get/ 200 89.33ms
+[2026-04-21 13:47:33,152] INFO app [43116fc3-ac98-428e-b4e5-50e9026dd056] END GET /api/auth/me/ 200 87.39ms
+[2026-04-21 13:47:33,225] INFO app [917f273b-bbf5-491b-9076-60f44bd48309] START GET /api/auth/themes/ user=None ip=127.0.0.1
+[2026-04-21 13:47:33,233] INFO app [917f273b-bbf5-491b-9076-60f44bd48309] END GET /api/auth/themes/ 200 76.41ms
+[2026-04-21 13:47:33,243] INFO app [7996ba45-3761-483c-b0bf-4596cba5de29] START GET /api/user/stores/user/get/ user=None ip=127.0.0.1
+[2026-04-21 13:47:33,255] INFO app [34b811cd-25ad-4256-a2ca-0dbaf6101d78] END GET /api/user/home/get/ 200 194.82ms
+[2026-04-21 13:47:33,268] INFO app [7996ba45-3761-483c-b0bf-4596cba5de29] END GET /api/user/stores/user/get/ 200 212.1ms
+[2026-04-21 13:47:50,559] INFO app [532d846b-afa0-4ca5-85de-f9f7149c49ab] START GET /api/user/home/categories/get/ user=None ip=127.0.0.1
+[2026-04-21 13:47:50,562] INFO app [dc7da8bc-cc0d-4f61-a6a3-bb531e59e89a] START GET /api/user/home/get/ user=None ip=127.0.0.1
+[2026-04-21 13:47:50,563] INFO app [a62e2176-0847-4f99-a87d-6123f248399c] START GET /api/user/stores/user/get/ user=None ip=127.0.0.1
+[2026-04-21 13:47:50,570] INFO app [532d846b-afa0-4ca5-85de-f9f7149c49ab] END GET /api/user/home/categories/get/ 200 64.56ms
+[2026-04-21 13:47:50,577] INFO app [dc7da8bc-cc0d-4f61-a6a3-bb531e59e89a] END GET /api/user/home/get/ 200 68.22ms
+[2026-04-21 13:47:50,579] INFO app [a62e2176-0847-4f99-a87d-6123f248399c] END GET /api/user/stores/user/get/ 200 66.82ms
+[2026-04-21 13:47:50,701] INFO app [c9e359f0-be51-4407-ad6b-146ed2d3f944] START GET /api/user/products/menu/ user=None ip=127.0.0.1
+[2026-04-21 13:47:50,790] INFO app [c9e359f0-be51-4407-ad6b-146ed2d3f944] END GET /api/user/products/menu/ 200 136.89ms
+[2026-04-21 13:48:09,654] INFO app [a48eab5a-1508-48ba-9337-356009315104] START GET /api/user/home/categories/get/ user=None ip=127.0.0.1
+[2026-04-21 13:48:09,661] INFO app [623d21cd-0daa-45fb-a935-1bc298b7af02] START GET /api/user/stores/user/get/ user=None ip=127.0.0.1
+[2026-04-21 13:48:09,663] INFO app [91d7e592-4f8a-4d63-a196-7e022a2d8690] START GET /api/user/products/menu/ user=None ip=127.0.0.1
+[2026-04-21 13:48:09,669] INFO app [a48eab5a-1508-48ba-9337-356009315104] END GET /api/user/home/categories/get/ 200 69.79ms
+[2026-04-21 13:48:09,677] INFO app [623d21cd-0daa-45fb-a935-1bc298b7af02] END GET /api/user/stores/user/get/ 200 75.17ms
+[2026-04-21 13:48:09,683] INFO app [91d7e592-4f8a-4d63-a196-7e022a2d8690] END GET /api/user/products/menu/ 200 78.24ms
+[2026-04-21 14:12:27,681] INFO app [84c00bee-b00e-4ff8-b575-d15f8e24eaf5] START GET /api/user/home/categories/get/ user=None ip=127.0.0.1
+[2026-04-21 14:12:27,682] INFO app [deb5cb35-f835-4289-b655-f3cc4e08b298] START GET /api/user/products/menu/ user=None ip=127.0.0.1
+[2026-04-21 14:12:27,682] INFO app [55c3c153-3911-4cf0-a924-e8fe8efebebe] START GET /api/user/stores/user/get/ user=None ip=127.0.0.1
+[2026-04-21 14:12:28,431] INFO app [0e83d45f-418d-4c16-82ab-5b664ef0707e] START GET /api/user/home/categories/get/ user=None ip=127.0.0.1
+[2026-04-21 14:12:28,476] INFO app [55c3c153-3911-4cf0-a924-e8fe8efebebe] END GET /api/user/stores/user/get/ 200 853.72ms
+[2026-04-21 14:12:28,484] INFO app [0e83d45f-418d-4c16-82ab-5b664ef0707e] END GET /api/user/home/categories/get/ 200 104.9ms
+[2026-04-21 14:12:28,484] WARNING app [55c3c153-3911-4cf0-a924-e8fe8efebebe] SLOW GET /api/user/stores/user/get/ 853.72ms
+[2026-04-21 14:12:28,485] INFO app [84c00bee-b00e-4ff8-b575-d15f8e24eaf5] END GET /api/user/home/categories/get/ 200 862.04ms
+[2026-04-21 14:12:28,493] WARNING app [84c00bee-b00e-4ff8-b575-d15f8e24eaf5] SLOW GET /api/user/home/categories/get/ 862.04ms
+[2026-04-21 14:12:28,545] INFO app [f3f4f9db-9b17-460a-b1f8-0c72b71c487a] START GET /api/user/products/menu/ user=None ip=127.0.0.1
+[2026-04-21 14:12:28,630] INFO app [deb5cb35-f835-4289-b655-f3cc4e08b298] END GET /api/user/products/menu/ 200 1009.65ms
+[2026-04-21 14:12:28,632] WARNING app [deb5cb35-f835-4289-b655-f3cc4e08b298] SLOW GET /api/user/products/menu/ 1009.65ms
+[2026-04-21 14:12:28,633] ERROR app [deb5cb35-f835-4289-b655-f3cc4e08b298] VERY SLOW GET /api/user/products/menu/ 1009.65ms
+[2026-04-21 14:12:28,668] INFO app [f3f4f9db-9b17-460a-b1f8-0c72b71c487a] END GET /api/user/products/menu/ 200 170.78ms
+[2026-04-21 14:12:28,740] INFO app [044f2f87-5403-4ba7-9a60-c6a3cac7396c] START GET /api/auth/themes/ user=None ip=127.0.0.1
+[2026-04-21 14:12:28,741] INFO app [6a653cab-1bfe-4fe5-af17-012afc9c3ac1] START GET /api/auth/me/ user=None ip=127.0.0.1
+[2026-04-21 14:12:28,753] INFO app [044f2f87-5403-4ba7-9a60-c6a3cac7396c] END GET /api/auth/themes/ 200 77.15ms
+[2026-04-21 14:12:28,754] INFO app [dab7827f-68eb-48a5-9067-69a9f3ece689] START GET /api/user/stores/user/get/ user=None ip=127.0.0.1
+[2026-04-21 14:12:28,765] INFO app [6a653cab-1bfe-4fe5-af17-012afc9c3ac1] END GET /api/auth/me/ 200 91.74ms
+[2026-04-21 14:12:28,781] INFO app [dab7827f-68eb-48a5-9067-69a9f3ece689] END GET /api/user/stores/user/get/ 200 102.78ms
+[2026-04-21 14:12:31,755] INFO app [c3277ba1-d253-4d13-8591-0fd89ec136aa] START GET /api/user/home/categories/get/ user=None ip=127.0.0.1
+[2026-04-21 14:12:31,756] INFO app [40dcf9c8-c269-469d-a2e2-008a7c43b7ea] START GET /api/user/home/get/ user=None ip=127.0.0.1
+[2026-04-21 14:12:31,767] INFO app [c3277ba1-d253-4d13-8591-0fd89ec136aa] END GET /api/user/home/categories/get/ 200 81.24ms
+[2026-04-21 14:12:31,769] INFO app [43d2f3c3-58e2-44b8-a669-ce70078b9af4] START GET /api/user/stores/user/get/ user=None ip=127.0.0.1
+[2026-04-21 14:12:31,770] INFO app [406d8ad7-0a12-4eac-b745-13a064b7edba] START GET /api/auth/me/ user=None ip=127.0.0.1
+[2026-04-21 14:12:31,770] INFO app [2768fe88-0193-4b98-92de-ffdef54cade5] START GET /api/auth/themes/ user=None ip=127.0.0.1
+[2026-04-21 14:12:31,791] INFO app [406d8ad7-0a12-4eac-b745-13a064b7edba] END GET /api/auth/me/ 200 96.74ms
+[2026-04-21 14:12:31,797] INFO app [43d2f3c3-58e2-44b8-a669-ce70078b9af4] END GET /api/user/stores/user/get/ 200 106.65ms
+[2026-04-21 14:12:31,798] INFO app [2768fe88-0193-4b98-92de-ffdef54cade5] END GET /api/auth/themes/ 200 100.6ms
+[2026-04-21 14:12:31,831] INFO app [40dcf9c8-c269-469d-a2e2-008a7c43b7ea] END GET /api/user/home/get/ 200 143.6ms
+[2026-04-21 14:12:35,285] INFO app [e445197d-dda3-494d-b49f-28a2275052cf] START POST /api/auth/logout/ user=None ip=127.0.0.1
+[2026-04-21 14:12:35,306] INFO app [e445197d-dda3-494d-b49f-28a2275052cf] END POST /api/auth/logout/ 205 69.98ms
+[2026-04-21 14:12:37,487] INFO app [feee98d9-a6ef-4949-8a05-47452bdf3a4c] START GET /auth/login/google-oauth2/ user=None ip=127.0.0.1
+[2026-04-21 14:12:37,633] INFO app [feee98d9-a6ef-4949-8a05-47452bdf3a4c] END GET /auth/login/google-oauth2/ 404 188.61ms
+[2026-04-21 14:12:37,840] INFO app [86fbabc1-20bd-485b-9a8e-aa1d5ae1288f] START GET /favicon.ico user=None ip=127.0.0.1
+[2026-04-21 14:12:37,910] INFO app [86fbabc1-20bd-485b-9a8e-aa1d5ae1288f] END GET /favicon.ico 404 230.22ms
+[2026-04-21 14:13:04,672] INFO app [9f2d6534-63ba-4597-98bb-956cdf5bd15b] START GET /auth/login/google-oauth2/ user=None ip=127.0.0.1
+[2026-04-21 14:13:04,770] INFO app [9f2d6534-63ba-4597-98bb-956cdf5bd15b] END GET /auth/login/google-oauth2/ 404 142.55ms
+[2026-04-21 14:13:05,886] INFO app [070842ec-e3b7-421b-b398-718c7572faf2] START GET /auth/login/google-oauth2/ user=None ip=127.0.0.1
+[2026-04-21 14:13:05,947] INFO app [070842ec-e3b7-421b-b398-718c7572faf2] END GET /auth/login/google-oauth2/ 404 101.66ms
+[2026-04-21 14:13:08,994] INFO app [aafbaea8-d3b0-4b77-adb0-31f8d6194842] START GET /api/user/home/categories/get/ user=None ip=127.0.0.1
+[2026-04-21 14:13:08,998] INFO app [256cc2a7-a8ad-4a1e-af02-50b2d9ed26c0] START GET /api/user/stores/user/get/ user=None ip=127.0.0.1
+[2026-04-21 14:13:09,003] INFO app [4d591244-e73c-4ae0-8093-313d7062679e] START GET /api/auth/me/ user=None ip=127.0.0.1
+[2026-04-21 14:13:09,004] INFO app [aafbaea8-d3b0-4b77-adb0-31f8d6194842] END GET /api/user/home/categories/get/ 200 75.2ms
+[2026-04-21 14:13:09,006] INFO app [256cc2a7-a8ad-4a1e-af02-50b2d9ed26c0] END GET /api/user/stores/user/get/ 200 73.83ms
+[2026-04-21 14:13:09,014] INFO app [1b666b67-23e8-4498-9ed1-72e90927eecb] START GET /api/auth/themes/ user=None ip=127.0.0.1
+[2026-04-21 14:13:09,021] INFO app [4d591244-e73c-4ae0-8093-313d7062679e] END GET /api/auth/me/ 200 84.19ms
+[2026-04-21 14:13:09,030] INFO app [1b666b67-23e8-4498-9ed1-72e90927eecb] END GET /api/auth/themes/ 200 88.68ms
+[2026-04-21 14:13:10,121] INFO app [540e44db-fbf0-42ae-9f16-50aa61f5e557] START GET /auth/login/google-oauth2/ user=None ip=127.0.0.1
+[2026-04-21 14:13:10,234] INFO app [540e44db-fbf0-42ae-9f16-50aa61f5e557] END GET /auth/login/google-oauth2/ 404 158.91ms
+[2026-04-21 14:13:14,173] INFO app [ae317cc1-65c8-4ebe-813d-e0d29bcff606] START GET /api/user/home/categories/get/ user=None ip=127.0.0.1
+[2026-04-21 14:13:14,181] INFO app [ae317cc1-65c8-4ebe-813d-e0d29bcff606] END GET /api/user/home/categories/get/ 200 67.81ms
+[2026-04-21 14:13:14,182] INFO app [dbc3cc43-0a79-4a15-9694-b259c6148741] START GET /api/user/stores/user/get/ user=None ip=127.0.0.1
+[2026-04-21 14:13:14,190] INFO app [95e86882-9da9-4423-8d5d-5bec4401fcbb] START GET /api/auth/themes/ user=None ip=127.0.0.1
+[2026-04-21 14:13:14,190] INFO app [96221d05-5f0c-44d5-8fbb-bdeec87e0ea5] START GET /api/auth/me/ user=None ip=127.0.0.1
+[2026-04-21 14:13:14,196] INFO app [dbc3cc43-0a79-4a15-9694-b259c6148741] END GET /api/user/stores/user/get/ 200 80.08ms
+[2026-04-21 14:13:14,209] INFO app [96221d05-5f0c-44d5-8fbb-bdeec87e0ea5] END GET /api/auth/me/ 200 90.87ms
+[2026-04-21 14:13:14,211] INFO app [95e86882-9da9-4423-8d5d-5bec4401fcbb] END GET /api/auth/themes/ 200 89.19ms
+[2026-04-21 14:13:17,517] INFO app [028b8748-8148-4230-9bc9-e033ba1e57fb] START GET /api/user/home/get/ user=None ip=127.0.0.1
+[2026-04-21 14:13:17,519] INFO app [f1800efd-bbf9-4263-8bb9-4f95135859b2] START GET /api/user/home/categories/get/ user=None ip=127.0.0.1
+[2026-04-21 14:13:17,522] INFO app [028b8748-8148-4230-9bc9-e033ba1e57fb] END GET /api/user/home/get/ 200 57.36ms
+[2026-04-21 14:13:17,524] INFO app [f1800efd-bbf9-4263-8bb9-4f95135859b2] END GET /api/user/home/categories/get/ 200 55.83ms
+[2026-04-21 14:13:18,522] INFO app [17e49c72-bac8-4033-b97a-b0ec5b8df514] START GET /api/user/products/menu/ user=None ip=127.0.0.1
+[2026-04-21 14:13:18,527] INFO app [17e49c72-bac8-4033-b97a-b0ec5b8df514] END GET /api/user/products/menu/ 200 50.86ms
+[2026-04-21 14:13:29,728] INFO app [387d5f70-2ebf-4961-9e7b-39f8270c609d] START GET /auth/login/google-oauth2/ user=None ip=127.0.0.1
+[2026-04-21 14:13:29,730] INFO app [cfe5e682-5149-472a-84b1-2578c7ae349e] START GET /api/user/home/categories/get/ user=None ip=127.0.0.1
+[2026-04-21 14:13:29,825] INFO app [cfe5e682-5149-472a-84b1-2578c7ae349e] END GET /api/user/home/categories/get/ 200 139.47ms
+[2026-04-21 14:13:29,888] INFO app [5e60889a-ea2f-49ac-a5be-13c0de0f62ed] START GET /api/user/stores/user/get/ user=None ip=127.0.0.1
+[2026-04-21 14:13:29,936] INFO app [387d5f70-2ebf-4961-9e7b-39f8270c609d] END GET /auth/login/google-oauth2/ 404 252.04ms
+[2026-04-21 14:13:29,937] INFO app [5e60889a-ea2f-49ac-a5be-13c0de0f62ed] END GET /api/user/stores/user/get/ 200 125.04ms
+[2026-04-21 14:18:02,552] INFO app [3d7f0326-0d2a-41af-ab5e-ad075966714a] START GET /api/user/home/categories/get/ user=None ip=127.0.0.1
+[2026-04-21 14:18:02,561] INFO app [f76f357c-b828-41e3-8da7-bc1176e7bd91] START GET /api/user/home/get/ user=None ip=127.0.0.1
+[2026-04-21 14:18:02,564] INFO app [ab9130cd-12b9-4c37-8a02-fd169ee075a6] START GET /api/auth/me/ user=None ip=127.0.0.1
+[2026-04-21 14:18:02,569] INFO app [608015e4-419b-4882-95b8-9e365f8b45c7] START GET /api/auth/themes/ user=None ip=127.0.0.1
+[2026-04-21 14:18:02,569] INFO app [493a24ab-6cac-4092-80fe-126dff88a898] START GET /api/user/stores/user/get/ user=None ip=127.0.0.1
+[2026-04-21 14:18:02,596] INFO app [ab9130cd-12b9-4c37-8a02-fd169ee075a6] END GET /api/auth/me/ 200 109.96ms
+[2026-04-21 14:18:02,603] INFO app [608015e4-419b-4882-95b8-9e365f8b45c7] END GET /api/auth/themes/ 200 113.01ms
+[2026-04-21 14:18:02,619] INFO app [3d7f0326-0d2a-41af-ab5e-ad075966714a] END GET /api/user/home/categories/get/ 200 139.46ms
+[2026-04-21 14:18:02,643] INFO app [493a24ab-6cac-4092-80fe-126dff88a898] END GET /api/user/stores/user/get/ 200 160.12ms
+[2026-04-21 14:18:02,684] INFO app [f76f357c-b828-41e3-8da7-bc1176e7bd91] END GET /api/user/home/get/ 200 199.53ms
+[2026-04-21 14:18:05,499] INFO app [90041b30-38e8-490c-a3d7-c853fb38ff97] START GET /auth/login/google-oauth2/ user=None ip=127.0.0.1
+[2026-04-21 14:18:05,641] INFO app [90041b30-38e8-490c-a3d7-c853fb38ff97] END GET /auth/login/google-oauth2/ 302 186.05ms
+[2026-04-21 14:18:19,654] INFO app [606acd02-31e2-417f-a63d-bd8b7428fc05] START GET /api/user/home/categories/get/ user=None ip=127.0.0.1
+[2026-04-21 14:18:19,658] INFO app [c9bd44d1-c291-4a73-90e1-2fd2b9aaa5fc] START GET /api/user/stores/user/get/ user=None ip=127.0.0.1
+[2026-04-21 14:18:19,663] INFO app [606acd02-31e2-417f-a63d-bd8b7428fc05] END GET /api/user/home/categories/get/ 200 74.51ms
+[2026-04-21 14:18:19,668] INFO app [c9bd44d1-c291-4a73-90e1-2fd2b9aaa5fc] END GET /api/user/stores/user/get/ 200 76.97ms
+[2026-04-21 14:18:19,673] INFO app [30b283f7-195f-4c6c-b3ca-f0f1b7318940] START GET /api/auth/me/ user=None ip=127.0.0.1
+[2026-04-21 14:18:19,673] INFO app [23c2b8b6-d60f-4e69-b980-2b37800d245b] START GET /api/auth/themes/ user=None ip=127.0.0.1
+[2026-04-21 14:18:19,684] INFO app [30b283f7-195f-4c6c-b3ca-f0f1b7318940] END GET /api/auth/me/ 200 80.77ms
+[2026-04-21 14:18:19,692] INFO app [23c2b8b6-d60f-4e69-b980-2b37800d245b] END GET /api/auth/themes/ 200 84.64ms
+[2026-04-21 14:18:31,566] INFO app [788c75be-abf9-456f-9af6-4c253866920a] START GET /api/user/home/categories/get/ user=None ip=127.0.0.1
+[2026-04-21 14:18:31,571] INFO app [593c9a60-ce8b-41c2-8fdc-2f93f366628e] START GET /api/user/stores/user/get/ user=None ip=127.0.0.1
+[2026-04-21 14:18:31,577] INFO app [788c75be-abf9-456f-9af6-4c253866920a] END GET /api/user/home/categories/get/ 200 64.05ms
+[2026-04-21 14:18:31,582] INFO app [593c9a60-ce8b-41c2-8fdc-2f93f366628e] END GET /api/user/stores/user/get/ 200 64.12ms
+[2026-04-21 14:18:31,665] INFO app [6bc902db-a2bf-40ba-b781-1acfb7b6e671] START GET /auth/login/google-oauth2/ user=None ip=127.0.0.1
+[2026-04-21 14:18:31,677] INFO app [6bc902db-a2bf-40ba-b781-1acfb7b6e671] END GET /auth/login/google-oauth2/ 302 93.22ms
+[2026-04-21 14:18:37,843] INFO app [ab51c646-3a51-405c-94be-ce85c15ed76a] START GET /api/user/home/categories/get/ user=None ip=127.0.0.1
+[2026-04-21 14:18:37,844] INFO app [d294eb9a-a0cc-4712-995c-ebcb5327abf7] START GET /api/user/home/get/ user=None ip=127.0.0.1
+[2026-04-21 14:18:37,844] INFO app [a1656f3f-d72d-436c-a6c6-5e081ff801eb] START GET /api/user/stores/user/get/ user=None ip=127.0.0.1
+[2026-04-21 14:18:37,855] INFO app [ab51c646-3a51-405c-94be-ce85c15ed76a] END GET /api/user/home/categories/get/ 200 80.7ms
+[2026-04-21 14:18:37,856] INFO app [d294eb9a-a0cc-4712-995c-ebcb5327abf7] END GET /api/user/home/get/ 200 77.78ms
+[2026-04-21 14:18:37,857] INFO app [70c54782-4adc-4c59-9b45-ef19c35b5b18] START GET /api/auth/me/ user=None ip=127.0.0.1
+[2026-04-21 14:18:37,858] INFO app [3f8de457-b484-4337-b185-a108bec39c5f] START GET /api/auth/themes/ user=None ip=127.0.0.1
+[2026-04-21 14:18:37,868] INFO app [a1656f3f-d72d-436c-a6c6-5e081ff801eb] END GET /api/user/stores/user/get/ 200 91.37ms
+[2026-04-21 14:18:37,885] INFO app [70c54782-4adc-4c59-9b45-ef19c35b5b18] END GET /api/auth/me/ 200 98.41ms
+[2026-04-21 14:18:37,893] INFO app [3f8de457-b484-4337-b185-a108bec39c5f] END GET /api/auth/themes/ 200 102.89ms
+[2026-04-21 14:18:56,107] INFO app [95366ffd-263f-4b6b-b19b-ac98471872d4] START GET /api/user/home/categories/get/ user=None ip=127.0.0.1
+[2026-04-21 14:18:56,107] INFO app [d8fde6ee-b30d-4bbb-9a03-0d92c41220a7] START GET /api/user/home/get/ user=None ip=127.0.0.1
+[2026-04-21 14:18:56,109] INFO app [6a4c9b51-2282-4e73-9a78-daeef398057f] START GET /api/user/stores/user/get/ user=None ip=127.0.0.1
+[2026-04-21 14:18:56,152] INFO app [6a4c9b51-2282-4e73-9a78-daeef398057f] END GET /api/user/stores/user/get/ 200 100.49ms
+[2026-04-21 14:18:56,154] INFO app [d8fde6ee-b30d-4bbb-9a03-0d92c41220a7] END GET /api/user/home/get/ 200 104.64ms
+[2026-04-21 14:18:56,155] INFO app [95366ffd-263f-4b6b-b19b-ac98471872d4] END GET /api/user/home/categories/get/ 200 107.74ms
+[2026-04-21 14:18:56,692] INFO app [fc928031-bdb7-457f-b951-d7cc12eea3bc] START GET /auth/login/google-oauth2/ user=None ip=127.0.0.1
+[2026-04-21 14:18:56,836] INFO app [fc928031-bdb7-457f-b951-d7cc12eea3bc] END GET /auth/login/google-oauth2/ 302 197.47ms
+[2026-04-21 14:22:40,978] INFO app [ebcb6f84-1504-4971-b0a9-5225c5316422] START GET /api/user/home/get/ user=None ip=127.0.0.1
+[2026-04-21 14:22:40,985] INFO app [c777067a-6bfd-4409-bd09-2d8315c1538f] START GET /api/auth/me/ user=None ip=127.0.0.1
+[2026-04-21 14:22:40,989] INFO app [af9e98b4-4802-4ca3-9f23-0e95ae21a9e0] START GET /api/user/stores/user/get/ user=None ip=127.0.0.1
+[2026-04-21 14:22:40,991] INFO app [bae4c9ea-5d4d-4c24-8e9f-2baf11eea77a] START GET /api/auth/themes/ user=None ip=127.0.0.1
+[2026-04-21 14:22:40,991] INFO app [ca856e33-fd49-42e8-a75b-36a38123a64f] START GET /api/user/home/categories/get/ user=None ip=127.0.0.1
+[2026-04-21 14:22:41,003] INFO app [c777067a-6bfd-4409-bd09-2d8315c1538f] END GET /api/auth/me/ 200 92.82ms
+[2026-04-21 14:22:41,005] INFO app [ebcb6f84-1504-4971-b0a9-5225c5316422] END GET /api/user/home/get/ 200 97.42ms
+[2026-04-21 14:22:41,016] INFO app [af9e98b4-4802-4ca3-9f23-0e95ae21a9e0] END GET /api/user/stores/user/get/ 200 103.34ms
+[2026-04-21 14:22:41,020] INFO app [bae4c9ea-5d4d-4c24-8e9f-2baf11eea77a] END GET /api/auth/themes/ 200 105.64ms
+[2026-04-21 14:22:41,022] INFO app [ca856e33-fd49-42e8-a75b-36a38123a64f] END GET /api/user/home/categories/get/ 200 109.26ms
+[2026-04-21 14:22:43,422] INFO app [4770b62e-fc83-40e3-99df-792426f05291] START GET /auth/login/google-oauth2/ user=None ip=127.0.0.1
+[2026-04-21 14:22:43,514] INFO app [4770b62e-fc83-40e3-99df-792426f05291] END GET /auth/login/google-oauth2/ 302 138.43ms
+[2026-04-21 14:23:01,571] INFO app [d36f2690-ffdd-4dab-a7ae-d814b2279135] START GET /api/user/home/categories/get/ user=None ip=127.0.0.1
+[2026-04-21 14:23:01,582] INFO app [d36f2690-ffdd-4dab-a7ae-d814b2279135] END GET /api/user/home/categories/get/ 200 48.84ms
+[2026-04-21 14:23:01,629] INFO app [8058d816-6bc5-47e6-a00d-74f5e5c49346] START GET /api/user/stores/user/get/ user=None ip=127.0.0.1
+[2026-04-21 14:23:01,634] INFO app [8058d816-6bc5-47e6-a00d-74f5e5c49346] END GET /api/user/stores/user/get/ 200 46.51ms
+[2026-04-21 14:23:01,682] INFO app [1d7c8a6a-b499-4f74-9cb1-092e1ba30df2] START GET /api/auth/me/ user=None ip=127.0.0.1
+[2026-04-21 14:23:01,689] INFO app [1d7c8a6a-b499-4f74-9cb1-092e1ba30df2] END GET /api/auth/me/ 200 50.13ms
+[2026-04-21 14:23:01,741] INFO app [d7c79460-a4d2-4dc8-861c-0f1ef69b6884] START GET /api/auth/themes/ user=None ip=127.0.0.1
+[2026-04-21 14:23:01,746] INFO app [d7c79460-a4d2-4dc8-861c-0f1ef69b6884] END GET /api/auth/themes/ 200 53.43ms
+[2026-04-21 14:23:02,187] INFO app [7f3838d1-e6fb-4449-bbe8-6bb2c7931a3e] START GET /api/user/home/categories/get/ user=None ip=127.0.0.1
+[2026-04-21 14:23:02,190] INFO app [2abbcb57-ba29-437d-85e2-1fa0ebc1832f] START GET /api/user/stores/user/get/ user=None ip=127.0.0.1
+[2026-04-21 14:23:02,191] INFO app [7f3838d1-e6fb-4449-bbe8-6bb2c7931a3e] END GET /api/user/home/categories/get/ 200 64.88ms
+[2026-04-21 14:23:02,199] INFO app [2abbcb57-ba29-437d-85e2-1fa0ebc1832f] END GET /api/user/stores/user/get/ 200 69.24ms
+[2026-04-21 14:23:02,204] INFO app [c0d99687-256a-4347-94b5-34eb7432ffa5] START GET /api/auth/me/ user=None ip=127.0.0.1
+[2026-04-21 14:23:02,205] INFO app [20f93dc3-0618-40d5-8fbd-2fdfd5b0b4e3] START GET /api/auth/themes/ user=None ip=127.0.0.1
+[2026-04-21 14:23:02,213] INFO app [c0d99687-256a-4347-94b5-34eb7432ffa5] END GET /api/auth/me/ 200 74.58ms
+[2026-04-21 14:23:02,217] INFO app [20f93dc3-0618-40d5-8fbd-2fdfd5b0b4e3] END GET /api/auth/themes/ 200 75.07ms
+[2026-04-21 14:23:04,041] INFO app [63619a46-3cc7-4466-9e1f-156e4d6f67ba] START GET /auth/login/google-oauth2/ user=None ip=127.0.0.1
+[2026-04-21 14:23:04,164] INFO app [63619a46-3cc7-4466-9e1f-156e4d6f67ba] END GET /auth/login/google-oauth2/ 302 172.62ms
+[2026-04-21 14:23:09,753] INFO app [ae923e93-f58a-4ac5-9f44-2e71f01709f1] START GET /api/user/home/categories/get/ user=None ip=127.0.0.1
+[2026-04-21 14:23:09,766] INFO app [f562aa5e-b93f-4b10-adab-4fa5c48fc455] START GET /api/user/home/get/ user=None ip=127.0.0.1
+[2026-04-21 14:23:09,767] INFO app [52ef24a3-6f3f-466c-9ffd-ea517398bf4c] START GET /api/auth/themes/ user=None ip=127.0.0.1
+[2026-04-21 14:23:09,769] INFO app [07430db0-a031-4051-8585-c6f628614ec6] START GET /api/auth/me/ user=None ip=127.0.0.1
+[2026-04-21 14:23:09,770] INFO app [754143ff-40e8-46a8-a215-0153ac9aa76c] START GET /api/user/stores/user/get/ user=None ip=127.0.0.1
+[2026-04-21 14:23:09,773] INFO app [ae923e93-f58a-4ac5-9f44-2e71f01709f1] END GET /api/user/home/categories/get/ 200 87.64ms
+[2026-04-21 14:23:09,785] INFO app [52ef24a3-6f3f-466c-9ffd-ea517398bf4c] END GET /api/auth/themes/ 200 86.04ms
+[2026-04-21 14:23:09,794] INFO app [07430db0-a031-4051-8585-c6f628614ec6] END GET /api/auth/me/ 200 99.34ms
+[2026-04-21 14:23:09,817] INFO app [754143ff-40e8-46a8-a215-0153ac9aa76c] END GET /api/user/stores/user/get/ 200 126.1ms
+[2026-04-21 14:23:09,860] INFO app [f562aa5e-b93f-4b10-adab-4fa5c48fc455] END GET /api/user/home/get/ 200 171.55ms
+[2026-04-21 14:23:19,736] INFO app [cea2c002-bae9-4636-aa21-c68879114b46] START GET /api/user/home/get/ user=None ip=127.0.0.1
+[2026-04-21 14:23:19,736] INFO app [fe427277-8fa2-48e0-8485-5583c2a9a23d] START GET /api/user/home/categories/get/ user=None ip=127.0.0.1
+[2026-04-21 14:23:19,737] INFO app [7350f834-96c6-409e-9c8a-0993deb6b8f7] START GET /api/user/stores/user/get/ user=None ip=127.0.0.1
+[2026-04-21 14:23:19,770] INFO app [7350f834-96c6-409e-9c8a-0993deb6b8f7] END GET /api/user/stores/user/get/ 200 93.77ms
+[2026-04-21 14:23:19,771] INFO app [fe427277-8fa2-48e0-8485-5583c2a9a23d] END GET /api/user/home/categories/get/ 200 98.81ms
+[2026-04-21 14:23:19,773] INFO app [cea2c002-bae9-4636-aa21-c68879114b46] END GET /api/user/home/get/ 200 97.77ms
+[2026-04-21 14:23:20,415] INFO app [08671077-846a-4b3a-ac65-81875164310d] START GET /auth/login/google-oauth2/ user=None ip=127.0.0.1
+[2026-04-21 14:23:20,528] INFO app [08671077-846a-4b3a-ac65-81875164310d] END GET /auth/login/google-oauth2/ 302 159.13ms
+[2026-04-21 14:23:26,721] INFO app [056a0108-a82c-4ff4-b3c1-c271aae83956] START GET /api/user/home/get/ user=None ip=127.0.0.1
+[2026-04-21 14:23:26,728] INFO app [056a0108-a82c-4ff4-b3c1-c271aae83956] END GET /api/user/home/get/ 200 67.54ms
+[2026-04-21 14:23:26,729] INFO app [18458e46-5b76-4013-bc03-8512fff0ae08] START GET /api/user/home/categories/get/ user=None ip=127.0.0.1
+[2026-04-21 14:23:26,730] INFO app [4fa04e65-dd11-4ff8-b932-bca2f38c87c4] START GET /api/auth/me/ user=None ip=127.0.0.1
+[2026-04-21 14:23:26,731] INFO app [2bc69c02-e426-4a97-8181-4991bea0c191] START GET /api/user/stores/user/get/ user=None ip=127.0.0.1
+[2026-04-21 14:23:26,747] INFO app [18458e46-5b76-4013-bc03-8512fff0ae08] END GET /api/user/home/categories/get/ 200 83.63ms
+[2026-04-21 14:23:26,759] INFO app [2bc69c02-e426-4a97-8181-4991bea0c191] END GET /api/user/stores/user/get/ 200 93.84ms
+[2026-04-21 14:23:26,772] INFO app [4fa04e65-dd11-4ff8-b932-bca2f38c87c4] END GET /api/auth/me/ 200 103.39ms
+[2026-04-21 14:23:26,800] INFO app [4384dfb0-a670-461a-b5f3-070231e55ce9] START GET /api/auth/themes/ user=None ip=127.0.0.1
+[2026-04-21 14:23:26,804] INFO app [4384dfb0-a670-461a-b5f3-070231e55ce9] END GET /api/auth/themes/ 200 61.37ms
+[2026-04-21 14:25:28,963] INFO app [17daa198-1cc2-470d-92a2-8f3d6afb9638] START GET /api/user/home/categories/get/ user=None ip=127.0.0.1
+[2026-04-21 14:25:28,963] INFO app [5644dd84-a0e2-4ff7-b421-00a5424957f6] START GET /api/user/stores/user/get/ user=None ip=127.0.0.1
+[2026-04-21 14:25:28,965] INFO app [954712d4-625e-4c96-97d7-7aa20e479126] START GET /api/user/home/get/ user=None ip=127.0.0.1
+[2026-04-21 14:25:28,991] INFO app [17daa198-1cc2-470d-92a2-8f3d6afb9638] END GET /api/user/home/categories/get/ 200 88.38ms
+[2026-04-21 14:25:28,993] INFO app [5644dd84-a0e2-4ff7-b421-00a5424957f6] END GET /api/user/stores/user/get/ 200 91.95ms
+[2026-04-21 14:25:28,994] INFO app [954712d4-625e-4c96-97d7-7aa20e479126] END GET /api/user/home/get/ 200 90.53ms
+[2026-04-21 14:25:33,960] INFO app [772c5c7e-9ce2-4a53-be86-89f869eee0fb] START POST /api/auth/login/ user=None ip=127.0.0.1
+[2026-04-21 14:25:34,398] INFO app [772c5c7e-9ce2-4a53-be86-89f869eee0fb] END POST /api/auth/login/ 200 478.87ms
+[2026-04-21 14:25:34,398] WARNING app [772c5c7e-9ce2-4a53-be86-89f869eee0fb] SLOW POST /api/auth/login/ 478.87ms
+[2026-04-21 14:25:34,452] INFO app [85a0894b-dfed-4c50-9f7b-d2875facb592] START GET /api/user/cart/get/ user=None ip=127.0.0.1
+[2026-04-21 14:25:34,480] INFO app [85a0894b-dfed-4c50-9f7b-d2875facb592] END GET /api/user/cart/get/ 200 75.24ms
+[2026-04-21 14:25:34,607] INFO app [a54d071e-1749-4485-8b35-4d39c0e3c532] START GET /api/user/home/get/ user=None ip=127.0.0.1
+[2026-04-21 14:25:34,608] INFO app [9ebe72c3-9323-45fc-991a-5891099721f0] START GET /api/user/home/categories/get/ user=None ip=127.0.0.1
+[2026-04-21 14:25:34,621] INFO app [a54d071e-1749-4485-8b35-4d39c0e3c532] END GET /api/user/home/get/ 200 69.81ms
+[2026-04-21 14:25:34,622] INFO app [9ebe72c3-9323-45fc-991a-5891099721f0] END GET /api/user/home/categories/get/ 200 68.33ms
+[2026-04-21 14:25:37,019] INFO app [f0897e04-8106-4066-864b-29d74dc27102] START GET /api/user/home/categories/get/ user=None ip=127.0.0.1
+[2026-04-21 14:25:37,031] INFO app [f0897e04-8106-4066-864b-29d74dc27102] END GET /api/user/home/categories/get/ 200 61.47ms
+[2026-04-21 14:25:37,129] INFO app [5d75b4d8-5a2a-424e-a74f-d4bb090fcafb] START GET /api/user/stores/user/get/ user=None ip=127.0.0.1
+[2026-04-21 14:25:37,135] INFO app [5d75b4d8-5a2a-424e-a74f-d4bb090fcafb] END GET /api/user/stores/user/get/ 200 163.23ms
+[2026-04-21 14:25:39,779] INFO app [1f50d322-9bea-4a36-ba4e-5b0ac9b66f78] START GET /api/user/home/get/ user=None ip=127.0.0.1
+[2026-04-21 14:25:39,788] INFO app [1f50d322-9bea-4a36-ba4e-5b0ac9b66f78] END GET /api/user/home/get/ 200 55.16ms
+[2026-04-21 14:25:39,898] INFO app [0349d5d9-f684-4c3c-90a9-5a991f4e02af] START GET /api/admin/dashboard/ user=None ip=127.0.0.1
+[2026-04-21 14:25:39,918] INFO app [08af1766-5c90-4cbf-8cd7-f7e8834f06b7] START GET /api/auth/themes/ user=None ip=127.0.0.1
+[2026-04-21 14:25:39,920] INFO app [5b036815-7fe4-4952-aff1-1d55cf862143] START GET /api/auth/me/ user=None ip=127.0.0.1
+[2026-04-21 14:25:39,927] INFO app [08af1766-5c90-4cbf-8cd7-f7e8834f06b7] END GET /api/auth/themes/ 200 64.59ms
+[2026-04-21 14:25:39,937] INFO app [5b036815-7fe4-4952-aff1-1d55cf862143] END GET /api/auth/me/ 200 71.89ms
+[2026-04-21 14:25:39,958] INFO app [0349d5d9-f684-4c3c-90a9-5a991f4e02af] END GET /api/admin/dashboard/ 200 108.75ms
+[2026-04-21 14:25:40,020] INFO app [13428178-ba71-45fa-a2ec-3f6eeb40f7ce] START GET /api/auth/themes/ user=None ip=127.0.0.1
+[2026-04-21 14:25:40,027] INFO app [13428178-ba71-45fa-a2ec-3f6eeb40f7ce] END GET /api/auth/themes/ 200 78.66ms
+[2026-04-21 14:25:40,036] INFO app [24c42ff7-72dc-4b8f-8b45-bec1af7e279d] START GET /api/admin/dashboard/ user=None ip=127.0.0.1
+[2026-04-21 14:25:40,056] INFO app [24c42ff7-72dc-4b8f-8b45-bec1af7e279d] END GET /api/admin/dashboard/ 200 71.88ms
+[2026-04-21 14:25:50,609] INFO app [683e4972-ce7f-4cce-b78e-b19f4d2de303] START GET /api/admin/dashboard/ user=None ip=127.0.0.1
+[2026-04-21 14:25:50,614] INFO app [6629e83a-b789-4f2c-91e6-7a3599f98b2c] START GET /api/admin/dashboard/ user=None ip=127.0.0.1
+[2026-04-21 14:25:50,622] INFO app [683e4972-ce7f-4cce-b78e-b19f4d2de303] END GET /api/admin/dashboard/ 200 65.51ms
+[2026-04-21 14:25:50,627] INFO app [6629e83a-b789-4f2c-91e6-7a3599f98b2c] END GET /api/admin/dashboard/ 200 67.99ms
+[2026-04-21 14:34:39,227] INFO app [8d76c5bd-2615-42d4-b324-0bcd5ac6d544] START GET /api/admin/dashboard/ user=None ip=127.0.0.1
+[2026-04-21 14:34:39,293] INFO app [8d76c5bd-2615-42d4-b324-0bcd5ac6d544] END GET /api/admin/dashboard/ 200 112.25ms
+[2026-04-21 14:34:39,336] INFO app [9d00bba9-b09e-466c-a305-4e9c8d0749b9] START GET /api/admin/dashboard/ user=None ip=127.0.0.1
+[2026-04-21 14:34:39,353] INFO app [9d00bba9-b09e-466c-a305-4e9c8d0749b9] END GET /api/admin/dashboard/ 200 173.49ms
+[2026-04-21 14:34:40,515] INFO app [4bb02af0-5fad-4395-a39c-cbe3622b8f50] START GET /api/admin/dashboard/ user=None ip=127.0.0.1
+[2026-04-21 14:34:40,526] INFO app [4bb02af0-5fad-4395-a39c-cbe3622b8f50] END GET /api/admin/dashboard/ 200 68.93ms
+[2026-04-21 14:34:40,526] INFO app [a943631d-c445-4c72-b743-540283290966] START GET /api/auth/themes/ user=None ip=127.0.0.1
+[2026-04-21 14:34:40,535] INFO app [3fa3c180-712e-4684-858b-63925c4e1f3b] START GET /api/auth/me/ user=None ip=127.0.0.1
+[2026-04-21 14:34:40,542] INFO app [a943631d-c445-4c72-b743-540283290966] END GET /api/auth/themes/ 200 74.85ms
+[2026-04-21 14:34:40,559] INFO app [3fa3c180-712e-4684-858b-63925c4e1f3b] END GET /api/auth/me/ 200 89.1ms
+[2026-04-21 14:34:40,592] INFO app [8a660606-4b62-475b-b57e-02e421ff318e] START GET /api/admin/dashboard/ user=None ip=127.0.0.1
+[2026-04-21 14:34:40,602] INFO app [8a660606-4b62-475b-b57e-02e421ff318e] END GET /api/admin/dashboard/ 200 57.89ms
+[2026-04-21 14:34:40,611] INFO app [5632c6bf-0aca-44ee-b05a-cd042123b1a8] START GET /api/auth/themes/ user=None ip=127.0.0.1
+[2026-04-21 14:34:40,619] INFO app [5632c6bf-0aca-44ee-b05a-cd042123b1a8] END GET /api/auth/themes/ 200 54.16ms
+[2026-04-21 14:34:46,310] INFO app [8cc7f4b6-2215-45ac-ad6f-72d0097316ac] START GET /api/admin/dashboard/ user=None ip=127.0.0.1
+[2026-04-21 14:34:46,313] INFO app [35f97546-f353-4e9d-8639-1e430fb8dc88] START GET /api/admin/dashboard/ user=None ip=127.0.0.1
+[2026-04-21 14:34:46,319] INFO app [8cc7f4b6-2215-45ac-ad6f-72d0097316ac] END GET /api/admin/dashboard/ 200 58.53ms
+[2026-04-21 14:34:46,324] INFO app [35f97546-f353-4e9d-8639-1e430fb8dc88] END GET /api/admin/dashboard/ 200 61.1ms
+[2026-04-21 14:34:49,346] INFO app [aecc28d3-82f9-4181-bab1-f7e0aa791fea] START GET /api/admin/orders/get/ user=None ip=127.0.0.1
+[2026-04-21 14:34:49,401] INFO app [aecc28d3-82f9-4181-bab1-f7e0aa791fea] END GET /api/admin/orders/get/ 200 105.91ms
+[2026-04-21 14:34:50,534] INFO app [91fd2c46-3e7b-4ba6-8ae9-3f65615c7bda] START GET /api/admin/products/get/ user=None ip=127.0.0.1
+[2026-04-21 14:34:50,588] INFO app [91fd2c46-3e7b-4ba6-8ae9-3f65615c7bda] END GET /api/admin/products/get/ 200 105.19ms
+[2026-04-21 14:34:55,345] INFO app [899644fe-3ff2-47ec-82b1-473f059287f0] START PUT /api/admin/products/update/42/ user=None ip=127.0.0.1
+[2026-04-21 14:34:55,442] INFO app [899644fe-3ff2-47ec-82b1-473f059287f0] END PUT /api/admin/products/update/42/ 200 251.68ms
+[2026-04-21 14:35:00,951] INFO app [2db996dc-4b6f-43df-a99f-e6215d77bd4d] START PUT /api/admin/products/update/42/ user=None ip=127.0.0.1
+[2026-04-21 14:35:00,988] INFO app [2db996dc-4b6f-43df-a99f-e6215d77bd4d] END PUT /api/admin/products/update/42/ 200 79.0ms
+[2026-04-21 14:35:10,412] INFO app [dc1768b9-b849-4397-accd-e71a77c9ca49] START POST /api/auth/logout/ user=None ip=127.0.0.1
+[2026-04-21 14:35:10,432] INFO app [dc1768b9-b849-4397-accd-e71a77c9ca49] END POST /api/auth/logout/ 205 182.6ms
+[2026-04-21 14:35:23,753] INFO app [5313b682-c978-407b-892f-7e634e363d0b] START GET /api/user/home/categories/get/ user=None ip=127.0.0.1
+[2026-04-21 14:35:23,759] INFO app [356d967c-9f86-45cc-9cb3-a1e9179adbf2] START GET /api/user/home/get/ user=None ip=127.0.0.1
+[2026-04-21 14:35:23,763] INFO app [bc856d16-74dc-464a-9c75-e334b826da64] START GET /api/user/stores/user/get/ user=None ip=127.0.0.1
+[2026-04-21 14:35:23,774] INFO app [5313b682-c978-407b-892f-7e634e363d0b] END GET /api/user/home/categories/get/ 200 103.12ms
+[2026-04-21 14:35:23,811] INFO app [bc856d16-74dc-464a-9c75-e334b826da64] END GET /api/user/stores/user/get/ 200 131.83ms
+[2026-04-21 14:35:23,877] INFO app [d31d46b4-69ed-4a5a-bb19-51c06b7e1cc0] START GET /api/auth/me/ user=None ip=127.0.0.1
+[2026-04-21 14:35:23,879] INFO app [356d967c-9f86-45cc-9cb3-a1e9179adbf2] END GET /api/user/home/get/ 200 204.6ms
+[2026-04-21 14:35:23,893] INFO app [d31d46b4-69ed-4a5a-bb19-51c06b7e1cc0] END GET /api/auth/me/ 200 107.73ms
+[2026-04-21 14:35:23,903] INFO app [84c4ac84-b730-4270-9a12-f349fa1b014f] START GET /api/auth/themes/ user=None ip=127.0.0.1
+[2026-04-21 14:35:23,910] INFO app [84c4ac84-b730-4270-9a12-f349fa1b014f] END GET /api/auth/themes/ 200 83.62ms
+[2026-04-21 14:35:25,929] INFO app [8232e456-11da-4c2f-8b25-7bdf0749129b] START GET /auth/login/google-oauth2/ user=None ip=127.0.0.1
+[2026-04-21 14:35:26,032] INFO app [8232e456-11da-4c2f-8b25-7bdf0749129b] END GET /auth/login/google-oauth2/ 302 144.61ms
+[2026-04-21 14:35:28,980] INFO app [01bfc444-8832-4865-97d3-a92f3e066d3e] START GET /auth/complete/google-oauth2/ user=None ip=127.0.0.1
+[2026-04-21 14:35:29,541] INFO app [01bfc444-8832-4865-97d3-a92f3e066d3e] END GET /auth/complete/google-oauth2/ 302 609.77ms
+[2026-04-21 14:35:29,542] WARNING app [01bfc444-8832-4865-97d3-a92f3e066d3e] SLOW GET /auth/complete/google-oauth2/ 609.77ms
+[2026-04-21 14:35:30,265] INFO app [077509a5-b6f5-4bfc-8438-fb9397a84451] START GET /api/user/home/categories/get/ user=None ip=127.0.0.1
+[2026-04-21 14:35:30,276] INFO app [077509a5-b6f5-4bfc-8438-fb9397a84451] END GET /api/user/home/categories/get/ 200 70.13ms
+[2026-04-21 14:35:30,298] INFO app [48ff871b-fb43-491c-aed5-28352f35640d] START GET /api/auth/me/ user=None ip=127.0.0.1
+[2026-04-21 14:35:30,312] INFO app [48ff871b-fb43-491c-aed5-28352f35640d] END GET /api/auth/me/ 200 65.05ms
+[2026-04-21 14:35:30,383] INFO app [7795f08b-1e2c-4101-ae5d-179072ff0e39] START GET /api/user/home/get/ user=None ip=127.0.0.1
+[2026-04-21 14:35:30,383] INFO app [2847e149-1cde-4353-8aa6-50035c3181db] START GET /api/user/stores/user/get/ user=None ip=127.0.0.1
+[2026-04-21 14:35:30,396] INFO app [7795f08b-1e2c-4101-ae5d-179072ff0e39] END GET /api/user/home/get/ 200 188.11ms
+[2026-04-21 14:35:30,402] INFO app [2847e149-1cde-4353-8aa6-50035c3181db] END GET /api/user/stores/user/get/ 200 190.92ms
+[2026-04-21 14:35:30,410] INFO app [4ce01383-8cdc-4f3a-b7c6-1f3a751ebbcb] START GET /api/auth/themes/ user=None ip=127.0.0.1
+[2026-04-21 14:35:30,420] INFO app [4ce01383-8cdc-4f3a-b7c6-1f3a751ebbcb] END GET /api/auth/themes/ 200 169.51ms
+[2026-04-21 14:35:37,235] INFO app [eb53ac8d-7a21-4b08-81fc-9837b467575c] START GET /api/user/home/categories/get/ user=None ip=127.0.0.1
+[2026-04-21 14:35:37,236] INFO app [81affec7-e641-4ec5-802e-72e262541258] START GET /api/user/home/get/ user=None ip=127.0.0.1
+[2026-04-21 14:35:37,242] INFO app [58b4c2c0-4c11-4b25-8b8f-f18ea6c72c57] START GET /api/user/stores/user/get/ user=None ip=127.0.0.1
+[2026-04-21 14:35:37,256] INFO app [eb53ac8d-7a21-4b08-81fc-9837b467575c] END GET /api/user/home/categories/get/ 200 78.91ms
+[2026-04-21 14:35:37,258] INFO app [81affec7-e641-4ec5-802e-72e262541258] END GET /api/user/home/get/ 200 77.69ms
+[2026-04-21 14:35:37,263] INFO app [58b4c2c0-4c11-4b25-8b8f-f18ea6c72c57] END GET /api/user/stores/user/get/ 200 81.59ms
+[2026-04-21 14:35:37,848] INFO app [d0e94317-bb22-406b-b906-c1aa5acd0a53] START GET /api/user/home/categories/get/ user=None ip=127.0.0.1
+[2026-04-21 14:35:37,857] INFO app [d0e94317-bb22-406b-b906-c1aa5acd0a53] END GET /api/user/home/categories/get/ 200 106.86ms
+[2026-04-21 14:35:37,866] INFO app [3e24b393-0743-4e53-a01f-07e139d2ab69] START GET /api/user/home/get/ user=None ip=127.0.0.1
+[2026-04-21 14:35:37,867] INFO app [d05555b9-830d-4bc4-8a82-7536b12041bb] START GET /api/user/stores/user/get/ user=None ip=127.0.0.1
+[2026-04-21 14:35:37,880] INFO app [3e24b393-0743-4e53-a01f-07e139d2ab69] END GET /api/user/home/get/ 200 125.47ms
+[2026-04-21 14:35:37,881] INFO app [5d030e88-c975-44f0-aae0-3822d2ec5cdc] START GET /api/auth/themes/ user=None ip=127.0.0.1
+[2026-04-21 14:35:37,882] INFO app [173cd0bc-248e-4499-8d9c-f51de633b681] START GET /api/auth/me/ user=None ip=127.0.0.1
+[2026-04-21 14:35:37,883] INFO app [d05555b9-830d-4bc4-8a82-7536b12041bb] END GET /api/user/stores/user/get/ 200 125.67ms
+[2026-04-21 14:35:37,903] INFO app [173cd0bc-248e-4499-8d9c-f51de633b681] END GET /api/auth/me/ 200 109.55ms
+[2026-04-21 14:35:37,905] INFO app [5d030e88-c975-44f0-aae0-3822d2ec5cdc] END GET /api/auth/themes/ 200 102.18ms
+[2026-04-21 14:35:47,324] INFO app [6c94b342-e0e9-448d-aac2-a63b04b694ee] START POST /api/auth/logout/ user=None ip=127.0.0.1
+[2026-04-21 14:35:47,346] INFO app [6c94b342-e0e9-448d-aac2-a63b04b694ee] END POST /api/auth/logout/ 205 67.88ms
+[2026-04-21 14:35:49,932] INFO app [c637ad87-079a-41a6-90b6-d52ca75b1ab2] START GET /api/user/products/menu/ user=None ip=127.0.0.1
+[2026-04-21 14:35:50,054] INFO app [c637ad87-079a-41a6-90b6-d52ca75b1ab2] END GET /api/user/products/menu/ 200 170.4ms
+[2026-04-21 14:37:48,809] INFO app [3c0093a6-f9d3-4a77-93cb-d59276ea0ad1] START GET /api/user/products/menu/ user=None ip=127.0.0.1
+[2026-04-21 14:37:48,809] INFO app [77e94e78-9b5f-49ed-b502-b8b097771f9b] START GET /api/user/home/categories/get/ user=None ip=127.0.0.1
+[2026-04-21 14:37:48,823] INFO app [77e94e78-9b5f-49ed-b502-b8b097771f9b] END GET /api/user/home/categories/get/ 200 65.73ms
+[2026-04-21 14:37:48,824] INFO app [3c0093a6-f9d3-4a77-93cb-d59276ea0ad1] END GET /api/user/products/menu/ 200 64.78ms
+[2026-04-21 14:37:52,989] INFO app [5fd1bd1a-732a-4f45-90a4-8bee619957a1] START GET /api/user/stores/user/get/ user=None ip=127.0.0.1
+[2026-04-21 14:37:52,997] INFO app [5fd1bd1a-732a-4f45-90a4-8bee619957a1] END GET /api/user/stores/user/get/ 200 64.0ms

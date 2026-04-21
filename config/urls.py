@@ -18,8 +18,10 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django_prometheus import exports
 
 urlpatterns = [
+    path("metrics/", exports.ExportToDjangoView),
     path('admin/', admin.site.urls),
     path('api/auth/', include('apps.users.urls')),
     path('api/admin/', include('apps.products.urls')),

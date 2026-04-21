@@ -1,14 +1,13 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
 from apps.users.authentication import CookieJWTAuthentication
 from apps.orders.models import Order
+from common.permissions import IsAdminOrReadOnly
 from .serializers import OrderSerializer
-from rest_framework import status
 
 class OrderDetailView(APIView):
     authentication_classes = [CookieJWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminOrReadOnly]
 
     def get(self, request, id):
         try:
@@ -44,7 +43,7 @@ ALLOWED_TRANSITIONS = {
 
 class AdminOrderView(APIView):
     authentication_classes = [CookieJWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminOrReadOnly]
 
     def get(self, request):
         orders = Order.objects.select_related(

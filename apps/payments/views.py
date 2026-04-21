@@ -3,16 +3,16 @@ import uuid
 from apps.carts.models import Cart, CartItem
 from apps.orders.models import Order, OrderItem, OrderItemTopping
 from apps.users.authentication import CookieJWTAuthentication
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.db import transaction
+from common.permissions import IsAdminOrReadOnly
 from common.redis_client import redis_client
 from common.kafka_producer import send_order_created
 
 class PaymentView(APIView):
     authentication_classes = [CookieJWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminOrReadOnly]
 
     def post(self, request):
         try:
