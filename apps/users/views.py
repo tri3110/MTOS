@@ -1,9 +1,18 @@
+import json
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.exceptions import TokenError
+from django.db import transaction
+from apps.users.services import send_notification
+
+from apps.users.authentication import CookieJWTAuthentication
+from common.redis_client import redis_client
+from common.constants import UserCache
+from common.permissions import IsAdminOrReadOnly
 from .serializers import (
     ThemeSerializer,
     UserCreateSerializer,
@@ -291,3 +300,98 @@ class ThemeSettingView(APIView):
             result[item["key"]] = item["value"]
 
         return Response(result)
+
+class UserView(APIView):
+    authentication_classes = [CookieJWTAuthentication]
+    permission_classes = [IsAdminOrReadOnly]
+
+    def get(self, request):
+        try:
+            
+            page = int(request.GET.get("page", 1))
+            page_size = int(request.GET.get("page_size", 1))
+            search = request.GET.get("search", "")
+
+            cache_key = f"{UserCache.ACTIVE.key}:{page}:{page_size}:{search}"
+            cached = redis_client.get(cache_key)
+            if cached:
+                return Response(json.loads(cached))
+            
+            qs = User.objects.filter(is_active=True)
+
+            if search:
+                qs = qs.filter(username__icontains=search)
+
+            qs = qs.order_by("-id")
+            total = qs.count()
+
+            start = (page - 1) * page_size
+            end = start + page_size
+
+            users = qs[start:end]
+            
+            data = UserSerializer(users, many=True).data
+            response = {
+                "results": data,
+                "total": total,
+                "page": page,
+                "page_size": page_size,
+            }
+
+            redis_client.set(cache_key, json.dumps(response), ex=UserCache.ACTIVE.ttl)
+
+            return Response(response)
+        
+        except Exception as e:
+            return Response({'message': 'Server error'})
+        
+    def patch(self, request):
+        try:
+            if not request.user.is_admin:
+                return Response({"message": "Permission denied"}, status=403)
+
+            data = request.data
+
+            if not isinstance(data, list):
+                return Response({"message": "Invalid payload"}, status=400)
+
+            ids = [item.get("id") for item in data if item.get("id")]
+            users = User.objects.filter(id__in=ids)
+
+            user_map = {u.id: u for u in users}
+
+            to_update = []
+
+            for item in data:
+                user_id = item.get("id")
+                role = item.get("role")
+
+                if role not in User.Role.values:
+                    continue
+
+                user = user_map.get(user_id)
+                if not user:
+                    continue
+
+                if user.role != role:
+                    send_notification(user_id, "Notification", "Your account is updated by " + role)
+
+                    user.role = role
+                    to_update.append(user)
+
+            with transaction.atomic():
+                if to_update:
+                    User.objects.bulk_update(to_update, ["role"])
+
+            self.clear_user_cache()
+            
+            return Response({
+                "updated_ids": [u.id for u in to_update]
+            })
+
+        except Exception as e:
+            return Response({"message": str(e)}, status=400)
+        
+    def clear_user_cache(self):
+        for key in redis_client.scan_iter(UserCache.ACTIVE.key + ":*"):
+            redis_client.delete(key)

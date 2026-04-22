@@ -8,7 +8,8 @@ from .views import (
     ChangePasswordView,
     ThemeSettingView,
     UserProfileView,
-    SocialLoginView
+    SocialLoginView,
+    UserView
 )
 
 urlpatterns = [
@@ -20,5 +21,7 @@ urlpatterns = [
     path('profile/', UserProfileView.as_view(), name='user_profile'),
     path('social-login/', SocialLoginView.as_view(), name='social_login'),
     path('me/', MeView.as_view(), name='user_info'),
+    path('users/get/', UserView.as_view(), name='get_user'),
+    path('users/update/', UserView.as_view(), name='update_user'),
     path('themes/', ThemeSettingView.as_view(), name='themes_setting'),
 ]

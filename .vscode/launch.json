@@ -2,13 +2,15 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Django Debug",
+            "name": "Django ASGI (Daphne)",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}/manage.py",
-            "args": ["runserver"],
-            "django": true,
-            "python": "${workspaceFolder}/venv/Scripts/python.exe"
+            "program": "${workspaceFolder}/venv/Scripts/daphne.exe",
+            "args": ["config.asgi:application"],
+            "django": false,
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            }
         }
     ]
 }

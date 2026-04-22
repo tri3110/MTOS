@@ -43,3 +43,10 @@ class SliderCache(Enum):
     def __init__(self, key, ttl):
         self.key = key
         self.ttl = ttl
+
+class UserCache(Enum):
+    ACTIVE = ("users:active", 300)
+
+    def __init__(self, key, ttl):
+        self.key = key
+        self.ttl = ttl

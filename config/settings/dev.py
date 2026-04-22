@@ -11,15 +11,15 @@ DATABASES = {
         'USER': os.getenv("DB_USER"),
         'PASSWORD': os.getenv("DB_PASSWORD"),
         'HOST': os.getenv("DB_HOST"),
-        'PORT': '5432',
+        'PORT': os.getenv("DB_PORT"),
     }
 }
 
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
+    os.getenv("HOME_URL"),
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:3000",
+    os.getenv("HOME_URL"),
 ]

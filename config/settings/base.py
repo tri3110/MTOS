@@ -18,6 +18,8 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
+    'daphne',
+    'channels',
     'apps.users',
     'apps.products',
     'apps.sliders',
@@ -114,7 +116,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = 'http://localhost:3000/dashboard/'
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = os.getenv("HOME_URL")
 
 # Cấu hình authentication backend cho social login
 AUTHENTICATION_BACKENDS = (
@@ -128,8 +130,8 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.getenv("SOCIAL_AUTH_GOOGLE_OAUTH2_KEY")
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv("SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET")
 
 # Facebook OAuth2
-SOCIAL_AUTH_FACEBOOK_KEY = 'YOUR_FACEBOOK_APP_ID'
-SOCIAL_AUTH_FACEBOOK_SECRET = 'YOUR_FACEBOOK_APP_SECRET'
+SOCIAL_AUTH_FACEBOOK_KEY = os.getenv("SOCIAL_AUTH_FACEBOOK_KEY")
+SOCIAL_AUTH_FACEBOOK_SECRET = os.getenv("SOCIAL_AUTH_FACEBOOK_SECRET")
 
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'Asia/Ho_Chi_Minh'
@@ -146,14 +148,24 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": os.getenv("REDIS_URL", "redis://127.0.0.1:6379/1"),
+        "LOCATION": os.getenv("REDIS_URL"),
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
     }
 }
 
-# Logging (giữ nguyên của bạn)
+ASGI_APPLICATION = "config.asgi.application"
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [os.getenv("REDIS_URL")],
+        },
+    },
+}
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
