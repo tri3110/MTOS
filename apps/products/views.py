@@ -14,7 +14,7 @@ from django.contrib.postgres.search import TrigramSimilarity
 from django.db.models import Q, Prefetch
 from django.utils.text import slugify
 from apps.users.models import User
-from common.constants import CategoryCache, OptionGroupCache, ProductCache, ToppingCache
+from common.constants import CategoryCache, HomeCache, OptionGroupCache, ProductCache, ToppingCache
 from common.permissions import IsAdminOrReadOnly
 from common.redis_client import redis_client
 
@@ -246,7 +246,7 @@ class ProductMenuView(APIView):
 class HomeDataView(APIView):
 
     def get(self, request):
-        cache_key = "home:data"
+        cache_key = HomeCache.ACTIVE.key
         cached = redis_client.get(cache_key)
 
         if cached:
@@ -267,7 +267,7 @@ class HomeDataView(APIView):
             )
             .filter(status="active", category__status="active")
             .only("id", "name", "price", "purchase_count", "category_id")
-            .order_by("-purchase_count")[:4]
+            .order_by("-purchase_count")[:5]
         )
 
         sliders = (
@@ -291,7 +291,7 @@ class HomeDataView(APIView):
         redis_client.set(
             cache_key,
             json.dumps(response_data, default=str),
-            ex=300
+            ex=HomeCache.ACTIVE.ttl
         )
 
         return Response(response_data)

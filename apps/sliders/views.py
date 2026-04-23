@@ -12,14 +12,15 @@ from common.constants import SliderCache
 from common.permissions import IsAdminOrReadOnly
 from common.redis_client import redis_client
 
+def clear_slider_cache():
+    redis_client.delete(SliderCache.ACTIVE.key)
+
 class SliderView(APIView):
     authentication_classes = [CookieJWTAuthentication]
     permission_classes = [IsAdminOrReadOnly]
 
-    cache = SliderCache.ACTIVE
-
     def get(self, request):
-        cached = redis_client.get(self.cache.key)
+        cached = redis_client.get(SliderCache.ACTIVE.key)
         if cached:
             return Response(json.loads(cached))
         
@@ -32,7 +33,7 @@ class SliderView(APIView):
         data = SliderSerializer(sliders, many=True).data
         response = {"data": data}
 
-        redis_client.set(self.cache.key, json.dumps(response), ex=self.cache.ttl)
+        redis_client.set(SliderCache.ACTIVE.key, json.dumps(response), ex=SliderCache.ACTIVE.ttl)
 
         return Response(response)
     
@@ -47,25 +48,26 @@ class SliderView(APIView):
             if serializer.is_valid():
                 slider = serializer.save(created_by=request.user)
 
-                redis_client.delete(self.cache.key)
+                clear_slider_cache()
                 return Response({
                     'slider': SliderSerializer(slider).data,
                     'message': "Slider created successfully"
                 }, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
                 
-        except:
+        except Exception as e:
             return Response({'message': 'Slider error'})
         
     def put(self, request, id):
         try:
+            clear_slider_cache()
+            
             with transaction.atomic():
-                slider = Slider.objects.select_for_update().get(id = id)
+                slider = Slider.objects.get(id=id)
                 serializer = SliderSerializer(slider, data=request.data, partial=True)
                 if serializer.is_valid():
                     slider = serializer.save(updated_by=request.user)
                     
-                    redis_client.delete(self.cache.key)
                     return Response({
                         'slider': SliderSerializer(slider).data,
                         'message': "Slider update successfully"
@@ -73,7 +75,7 @@ class SliderView(APIView):
                 
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
                 
-        except:
+        except Exception as e:
             return Response({'message': 'Update error'})
         
     def delete(self, request, id):
@@ -84,21 +86,19 @@ class SliderView(APIView):
                 slider.updated_by = request.user
                 slider.save()
 
-                redis_client.delete(self.cache.key)
+                clear_slider_cache()
 
                 return Response({
                     'message': "Slider delete successfully"
                 }, status=status.HTTP_201_CREATED)
                 
-        except:
+        except Exception as e:
             return Response({'message': 'Delete error'})
         
 class SliderHomeView(APIView):
 
-    cache = SliderCache.ACTIVE
-
     def get(self, request):
-        cached = redis_client.get(self.cache.key)
+        cached = redis_client.get(SliderCache.ACTIVE.key)
         if cached:
             return Response(json.loads(cached))
         
@@ -107,6 +107,6 @@ class SliderHomeView(APIView):
 
         response = {"data": slider_data}
 
-        redis_client.set(self.cache.key, json.dumps(response), ex=self.cache.ttl)
+        redis_client.set(SliderCache.ACTIVE.key, json.dumps(response), ex=SliderCache.ACTIVE.ttl)
 
         return Response(response)

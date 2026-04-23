@@ -50,3 +50,10 @@ class UserCache(Enum):
     def __init__(self, key, ttl):
         self.key = key
         self.ttl = ttl
+
+class HomeCache(Enum):
+    ACTIVE = ("home:data", 100)
+
+    def __init__(self, key, ttl):
+        self.key = key
+        self.ttl = ttl

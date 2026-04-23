@@ -4,7 +4,7 @@ from apps.users.models import User
 class Slider(models.Model):
     title = models.CharField(max_length=255, blank=True)
     image = models.ImageField(upload_to='sliders/')
-    link = models.URLField(blank=True, null=True)
+    link = models.CharField(max_length=255, blank=True, null=True)
     order = models.IntegerField(default=0)
     is_active = models.BooleanField(default=True)
 

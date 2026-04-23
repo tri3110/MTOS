@@ -65,6 +65,12 @@ class Topping(models.Model):
     image = models.ImageField(upload_to='toppings/', null=True, blank=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='active', db_index=True)
 
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="topping_created")
+    updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="topping_updated")
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
     def __str__(self):
         return self.name
     

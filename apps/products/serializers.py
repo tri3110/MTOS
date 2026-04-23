@@ -17,6 +17,7 @@ class ToppingSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'price', 'image', 'max_quantity', 'is_required']
 
 class ToppingBaseSerializer(serializers.ModelSerializer):
+    image = serializers.ImageField(required=False)
     class Meta:
         model = Topping
         fields = ['id', 'name', 'image', 'price']
