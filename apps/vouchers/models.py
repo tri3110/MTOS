@@ -7,9 +7,15 @@ class Voucher(models.Model):
         ('fixed', 'Fixed'),
     ]
 
+    VOUCHER_TYPE = [
+        ('order', 'Order Discount'),
+        ('shipping', 'Shipping Discount'),
+    ]
+
     code = models.CharField(max_length=50, unique=True)
     discount_type = models.CharField(max_length=10, choices=DISCOUNT_TYPE)
     discount_value = models.DecimalField(max_digits=10, decimal_places=2)
+    voucher_type = models.CharField(max_length=20, default='order', choices=VOUCHER_TYPE)
 
     max_usage = models.IntegerField()
     used_count = models.IntegerField(default=0)

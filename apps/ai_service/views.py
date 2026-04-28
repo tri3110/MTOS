@@ -1,58 +1,132 @@
 
-# import os
-# from rest_framework.response import Response
-# from rest_framework.views import APIView
-# from rest_framework import status
-# from openai import OpenAI
+# apps\ai_service\views.py
+import re
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework import status
+from apps.ai_service.gemini_service import chat_with_gemini, get_products_by_keyword
+from apps.carts.service import create_cart, serialize_cart
 
-# client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+def detect_intent(message):
+    message = message.lower()
+    if any(w in message for w in ["mua", "lấy", "order", "đặt"]):
+        return "order"
 
-# class ChatBotView(APIView):
+    return "chat"
+
+UNITS = {
+    "không": 0,
+    "một": 1, "mot": 1,
+    "hai": 2,
+    "ba": 3,
+    "bốn": 4, "bon": 4,
+    "năm": 5, "nam": 5,
+    "sáu": 6, "sau": 6,
+    "bảy": 7, "bay": 7,
+    "tám": 8, "tam": 8,
+    "chín": 9, "chin": 9,
+}
+
+def parse_vietnamese_number(text):
+    words = text.split()
+
+    if not words:
+        return None
+
+    # mười (10–19)
+    if words[0] in ["mười", "muoi"]:
+        if len(words) == 1:
+            return 10
+        if words[1] in UNITS:
+            return 10 + UNITS[words[1]]
+
+    # số đơn
+    if words[0] in UNITS:
+        return UNITS[words[0]]
+
+    return None
+
+
+def extract_quantity(message):
+    message = message.lower()
+
+    # ✅ 1. Ưu tiên số digit
+    match = re.search(r'\d+', message)
+    if match:
+        return int(match.group())
+
+    words = message.split()
+
+    # ✅ 2. parse 2 từ (mười một, mười hai...)
+    for i in range(len(words)):
+        phrase = " ".join(words[i:i+2])
+        num = parse_vietnamese_number(phrase)
+        if num:
+            return num
+
+    # ✅ 3. parse 1 từ (hai, ba...)
+    for word in words:
+        num = parse_vietnamese_number(word)
+        if num:
+            return num
+
+    return 1
+
+class ChatBotView(APIView):
     
-#     def post(self, request):
-#         user_message = request.data.get("message")
+    def post(self, request):
+        user_message = request.data.get("message")
 
-#         if not user_message:
-#             return Response(
-#                 {"error": "Message is required"},
-#                 status=status.HTTP_400_BAD_REQUEST
-#             )
+        if not user_message:
+            return Response(
+                {"error": "Message is required"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
-#         system_prompt = """
-#         Bạn là nhân viên bán trà sữa và cà phê chuyên nghiệp.
+        try:
+            intent = detect_intent(user_message)
 
-#         Phong cách:
-#         - Thân thiện, tự nhiên như người thật
-#         - Trả lời ngắn gọn, dễ hiểu
-#         - Luôn gợi ý thêm đồ uống nếu phù hợp
+            if intent == "order":
+                if not request.user.id:
+                    return Response({
+                        "message": "Bạn cân đăng nhập để đặt hàng 🛒"
+                    })
 
-#         Menu:
-#         - Trà sữa trân châu
-#         - Trà sữa matcha
-#         - Trà đào
-#         - Cà phê đen
-#         - Cà phê sữa
-#         - Bạc xỉu
+                products = get_products_by_keyword(user_message)
+                quantity = extract_quantity(user_message)
 
-#         Nếu khách phân vân → hãy recommend 1-2 món phù hợp nhất.
-#         """
+                if products.exists():
+                    product = products[0]
 
-#         try:
-#             response = client.chat.completions.create(
-#                 model="gpt-4o-mini",
-#                 messages=[
-#                     {"role": "system", "content": system_prompt},
-#                     {"role": "user", "content": user_message}
-#                 ],
-#                 temperature=0.7  # ✅ thêm để trả lời tự nhiên hơn
-#             )
+                    data = {
+                        "product": {  
+                            "id": product.id,
+                            "name": product.name,
+                            "price": product.price
+                        },
+                        "quantity": quantity,
+                        "base_price": product.price,
+                        "options": {},
+                        "toppings": []
+                    }
 
-#             reply = response.choices[0].message.content
+                    cart = create_cart(request.user, data)
 
-#             return Response({"message": reply})
+                    return Response({
+                        "message": f"Đã thêm {quantity} {product.name} vào giỏ hàng của bạn",
+                        "items": serialize_cart(cart)
+                    })
 
-#         except Exception as e:
-#             return Response(
-#                 {"error": str(e)},
-#                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
-#             )
+                return Response({
+                    "message": "Không tìm thấy sản phẩm 😢"
+                })
+            
+            reply = chat_with_gemini(user_message)
+            
+            return Response({"message": reply})
+
+        except Exception as e:
+            return Response(
+                {"error": str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )

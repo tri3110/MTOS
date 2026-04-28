@@ -7,6 +7,7 @@ from apps.users.authentication import CookieJWTAuthentication
 from apps.vouchers.models import Voucher
 from apps.vouchers.serializers import VoucherSerializer
 from common.permissions import IsAdminOrReadOnly
+from rest_framework.permissions import IsAuthenticated
 from common.redis_client import redis_client
 
 class VoucherView(APIView):
@@ -83,3 +84,28 @@ class VoucherView(APIView):
                 
         except:
             return Response({'message': 'Delete error'})
+
+
+class VoucherPaymentView(APIView):
+    authentication_classes = [CookieJWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    CACHE_KEY = "vouchers:payment"
+    CACHE_TTL = 300 
+
+    def get(self, request):
+        try:
+            cached = redis_client.get(self.CACHE_KEY)
+            if cached:
+                return Response(json.loads(cached))
+            
+            objs = Voucher.objects.filter(is_active=True).order_by('-id')
+            data = VoucherSerializer(objs, many=True).data
+
+            response = {"data": data}
+            redis_client.set(self.CACHE_KEY, json.dumps(response), ex=self.CACHE_TTL)
+
+            return Response(response)
+        
+        except Exception as e:
+            return Response({'message': 'Server error'})

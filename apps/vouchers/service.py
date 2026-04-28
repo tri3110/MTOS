@@ -20,8 +20,8 @@ def validate_voucher(voucher, user, order_total):
 
     return True
 
-def apply_voucher(voucher: Voucher, order_total: float):
-    validate_voucher(voucher, order_total)
+def apply_voucher(voucher: Voucher, user, order_total: float):
+    validate_voucher(voucher, user, order_total)
 
     if voucher.discount_type == 'percent':
         discount = order_total * (voucher.discount_value / 100)

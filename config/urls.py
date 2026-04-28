@@ -38,7 +38,8 @@ urlpatterns = [
     path('api/user/', include('apps.stores.urls')),
     path('api/user/', include('apps.payments.urls')),
     path('api/user/', include('apps.orders.urls')),
-    # path('api/ai/', include('apps.ai_service.urls')),
+    path('api/user/', include('apps.vouchers.urls')),
+    path('api/ai/', include('apps.ai_service.urls')),
 ]
 
 if settings.DEBUG:

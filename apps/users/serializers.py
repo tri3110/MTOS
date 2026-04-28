@@ -65,7 +65,8 @@ class UserSerializer(serializers.ModelSerializer):
             'role',
             'avatar',
             'is_staff_member',
-            'is_admin'
+            'is_admin',
+            'address',
         ]
         extra_kwargs = {
             'email': {'read_only': True},

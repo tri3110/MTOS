@@ -12,6 +12,7 @@ class Category(models.Model):
     name = models.CharField(max_length=100)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='active')
     slug = models.SlugField(unique=True, null=True, blank=True)
+    keywords = models.JSONField(default=list, blank=True)
 
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="category_created")
     updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="category_updated")

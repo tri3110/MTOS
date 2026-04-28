@@ -1,24 +1,31 @@
 import uuid
 
 from apps.carts.models import Cart, CartItem
-from apps.orders.models import Order, OrderItem, OrderItemTopping
+from apps.orders.models import Order, OrderItem, OrderItemTopping, OrderVoucher
 from apps.users.authentication import CookieJWTAuthentication
+from apps.vouchers.models import Voucher
+from apps.vouchers.service import apply_voucher
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.db import transaction
-from common.permissions import IsAdminOrReadOnly
+from rest_framework.permissions import IsAuthenticated
+from common.constants import Constant
 from common.redis_client import redis_client
 from common.kafka_producer import send_order_created
+from common.utils import get_distance
 
 class PaymentView(APIView):
     authentication_classes = [CookieJWTAuthentication]
-    permission_classes = [IsAdminOrReadOnly]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
         try:
             with transaction.atomic():
 
                 user = request.user
+                data = request.data
+                shipping_voucher = data.get("shipping_voucher")
+                order_voucher = data.get("order_voucher")
 
                 lock_key = f"lock_order_{user.id}"
                 if not redis_client.set(lock_key, 1, ex=10, nx=True):
@@ -45,8 +52,14 @@ class PaymentView(APIView):
                         customer_name=user.full_name or user.email,
                         idempotency_key=str(uuid.uuid4()),
                         total_price=0,
+                        delivery_address=data.get("delivery_address", ""),
                         status="PENDING"
                     )
+
+                    shipping_fee = Constant.SHIPPING_FEE
+
+                    if shipping_voucher != -1:
+                        shipping_fee = 0
 
                     total = 0
 
@@ -69,7 +82,24 @@ class PaymentView(APIView):
                             )
                             total += item_topping.price * item_topping.quantity
 
-                    order.total_price = total
+                    discount_amount = 0
+                    if order_voucher != -1:
+                        try:
+                            voucher = Voucher.objects.get(id=order_voucher)
+                        except Voucher.DoesNotExist:
+                            return Response({"error": "Voucher không tồn tại"}, status=400)
+
+                        if voucher.voucher_type != "order":
+                            return Response({"error": "Voucher không hợp lệ cho đơn hàng"}, status=400)
+
+                        discount_amount = apply_voucher(voucher, user, total)
+                        OrderVoucher.objects.create(
+                            order=order,
+                            voucher=voucher,
+                            discount_amount=discount_amount
+                        )
+
+                    order.total_price = max(0, total + shipping_fee - discount_amount)
                     order.save()
 
                     transaction.on_commit(lambda: send_order_created(order))
@@ -110,3 +140,19 @@ class MomoIPNView(APIView):
             return Response({"error": "Order not found"}, status=404)
 
         return Response({"message": "OK"})
+
+class DistanceView(APIView):
+
+    def post(self, request):
+        origin = request.data.get("origin")
+        destination = request.data.get("destination")
+
+        if not origin or not destination:
+            return Response({"error": "Missing origin or destination"}, status=400)
+
+        try:
+            data = get_distance(origin, destination)
+
+            return Response(data)
+        except Exception as e:
+            return Response({"error": str(e)}, status=500)

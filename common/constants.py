@@ -57,3 +57,7 @@ class HomeCache(Enum):
     def __init__(self, key, ttl):
         self.key = key
         self.ttl = ttl
+
+class Constant():
+    SHIPPING_FEE = 15000
+   

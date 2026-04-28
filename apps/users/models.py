@@ -94,7 +94,7 @@ class User(AbstractUser):
     # Thông tin cá nhân
     full_name = models.CharField(_('full name'), max_length=100, blank=True)
     phone = models.CharField(_('phone number'), max_length=20, blank=True)
-
+    address = models.CharField(_('address'), max_length=255, blank=True)
     groups = models.ManyToManyField(
         'auth.Group',
         verbose_name=_('groups'),
