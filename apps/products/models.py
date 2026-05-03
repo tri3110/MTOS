@@ -101,6 +101,7 @@ class OptionGroup(models.Model):
     ]
 
     name = models.CharField(max_length=100)  # Ngọt, Đá
+    keywords = models.JSONField(default=list, blank=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='active', db_index=True)
 
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="option_group_created")

@@ -13,7 +13,7 @@ def get_cart_items(cart):
 def build_item_key(product_id, options, toppings):
     return (
         product_id,
-        tuple(sorted(options)),
+        tuple(sorted(opt["option_id"] for opt in options)),
         tuple(sorted((t["id"], t["quantity"]) for t in toppings))
     )
 
@@ -43,8 +43,8 @@ def create_cart(user, data):
 
     key = build_item_key(
         data["product"]["id"],
-        data["options"].values(),
-        data["toppings"]
+        data.get("options", []),
+        data.get("toppings", [])
     )
 
     existing = db_map.get(key)
@@ -64,9 +64,9 @@ def create_cart(user, data):
         CartItemOption.objects.bulk_create([
             CartItemOption(
                 cart_item=new_item,
-                option_id=opt_id
+                option_id=opt["option_id"]
             )
-            for opt_id in data["options"].values()
+            for opt in data.get("options", [])
         ])
 
         CartItemTopping.objects.bulk_create([
@@ -76,7 +76,7 @@ def create_cart(user, data):
                 price=t["price"],
                 quantity=t["quantity"]
             )
-            for t in data["toppings"]
+            for t in data.get("toppings", [])
         ])
 
     redis_client.delete(f"cart:{user.id}")

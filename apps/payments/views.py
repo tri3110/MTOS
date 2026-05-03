@@ -1,7 +1,7 @@
 import uuid
 
 from apps.carts.models import Cart, CartItem
-from apps.orders.models import Order, OrderItem, OrderItemTopping, OrderVoucher
+from apps.orders.models import Order, OrderItem, OrderItemOption, OrderItemTopping, OrderVoucher
 from apps.users.authentication import CookieJWTAuthentication
 from apps.vouchers.models import Voucher
 from apps.vouchers.service import apply_voucher
@@ -42,7 +42,7 @@ class PaymentView(APIView):
                         return Response({"error": "Too many requests"}, status=429)
 
                     cart, _ = Cart.objects.get_or_create(user=user)
-                    cart_items = cart.items.prefetch_related("options", "toppings")
+                    cart_items = cart_items.prefetch_related("options__option","toppings__topping")
 
                     if not cart_items:
                         return Response({"error": "Cart is empty"}, status=400)
@@ -64,14 +64,24 @@ class PaymentView(APIView):
                     total = 0
 
                     for item in cart_items:
+                        base_price = item.price_snapshot or item.product.price
                         order_item = OrderItem.objects.create(
                             order=order,
                             product=item.product,
                             quantity=item.quantity,
-                            price=item.product.price
+                            price=base_price
                         )
 
-                        total += item.product.price * item.quantity
+                        total += base_price * item.quantity
+
+                        for item_option in item.options.all():
+                            option_price = item_option.option.price
+                            OrderItemOption.objects.create(
+                                order_item=order_item,
+                                option=item_option.option,
+                                price=option_price
+                            )
+                            total += option_price * item.quantity
 
                         for item_topping in item.toppings.all():
                             OrderItemTopping.objects.create(

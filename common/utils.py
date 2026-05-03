@@ -1,3 +1,4 @@
+import hashlib
 import os
 import requests
 
@@ -22,3 +23,9 @@ def get_distance(origin, destination):
         "distance_m": element["distance"]["value"],
         "duration_s": element["duration"]["value"]
     }
+
+def normalize_text(text):
+    return text.lower().strip()
+
+def hash_text(text):
+    return hashlib.md5(text.encode()).hexdigest()
