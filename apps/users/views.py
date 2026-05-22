@@ -7,7 +7,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.exceptions import TokenError
 from django.db import transaction
-from apps.users.services import send_notification
+from apps.websocket.service import send_notification
+from django.db.models import Q
 
 from apps.users.authentication import CookieJWTAuthentication
 from common.redis_client import redis_client
@@ -309,8 +310,8 @@ class UserView(APIView):
         try:
             
             page = int(request.GET.get("page", 1))
-            page_size = int(request.GET.get("page_size", 1))
-            search = request.GET.get("search", "")
+            page_size = int(request.GET.get("page_size", 10))
+            search = request.GET.get("search", "").strip()
 
             cache_key = f"{UserCache.ACTIVE.key}:{page}:{page_size}:{search}"
             cached = redis_client.get(cache_key)
@@ -320,7 +321,10 @@ class UserView(APIView):
             qs = User.objects.filter(is_active=True)
 
             if search:
-                qs = qs.filter(username__icontains=search)
+                qs = qs.filter(
+                    Q(username__icontains=search) |
+                    Q(full_name__icontains=search)
+                )
 
             qs = qs.order_by("-id")
             total = qs.count()

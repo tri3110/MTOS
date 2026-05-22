@@ -33,3 +33,24 @@ def notify_user(user_id, message, event_type="USER_DELETED"):
             }
         }
     )
+
+def send_conversation_update(user_id, data):
+    channel_layer = get_channel_layer()
+    async_to_sync(channel_layer.group_send)(
+        f"user_{user_id}",
+        {
+            "type": "conversation_update",
+            "data": data
+        }
+    )
+
+def broadcast_message(room_id, data):
+    channel_layer = get_channel_layer()
+
+    async_to_sync(channel_layer.group_send)(
+        f"room_{room_id}",
+        {
+            "type": "chat_message",
+            "data": data
+        }
+    )

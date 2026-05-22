@@ -29,6 +29,8 @@ INSTALLED_APPS = [
     'apps.stores',
     'apps.carts',
     'apps.ai_service', 
+    'apps.chat',
+    'apps.websocket',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -234,6 +236,3 @@ SOCIAL_AUTH_PIPELINE = (
 
     'apps.users.pipeline.generate_jwt',
 )
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'

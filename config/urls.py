@@ -30,6 +30,7 @@ urlpatterns = [
     path('api/admin/', include('apps.stores.urls')),
     path('api/admin/', include('apps.orders.urls')),
     path('api/admin/', include('apps.dashboard.urls')),
+    path('api/admin/', include('apps.chat.urls')),
     path('auth/', include('social_django.urls', namespace='social')),
 
     path('api/user/', include('apps.products.urls')),

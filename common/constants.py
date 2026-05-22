@@ -46,6 +46,7 @@ class SliderCache(Enum):
 
 class UserCache(Enum):
     ACTIVE = ("users:active", 300)
+    ONLINE = ("users:online", 86400)
     CHAT = ("users:chat", 86400) # 86400s = 1 day
 
     def __init__(self, key, ttl):
